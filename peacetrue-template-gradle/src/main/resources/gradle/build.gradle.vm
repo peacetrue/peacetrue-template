@@ -1,0 +1,9 @@
+plugins {
+    id "com.github.peacetrue.gradle.build-convention" version "${esc.d}{peaceGradleVersion}${esc.d}{tailSnapshot}" #if(${repository.multi})apply false#end
+}
+
+group "${repository.packageName}"
+version "${esc.d}{${lh.lc(${repository.name})}Version}${esc.d}{tailSnapshot}"
+description "${repository.title}"
+
+#if(${repository.multi})apply plugin: "com.github.peacetrue.gradle.build-convention"#end

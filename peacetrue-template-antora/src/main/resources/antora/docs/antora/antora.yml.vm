@@ -1,0 +1,11 @@
+name: ${repository.name}
+title: ${repository.title}
+version: master
+asciidoc:
+  attributes:
+    numbered: '@'
+    website: ${repository.website}
+    app-name: ${repository.name}
+start_page: ROOT:index.adoc
+nav:
+  - modules/ROOT/nav.adoc

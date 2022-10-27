@@ -1,0 +1,6 @@
+plugins {
+    id "com.github.peacetrue.gradle.build-convention" version "${peaceGradleVersion}${tailSnapshot}"
+}
+
+version "${peaceTemplateGradleVersion}${tailSnapshot}"
+description "Gradle 目录模板"

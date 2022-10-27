@@ -1,0 +1,43 @@
+plugins {
+    id "com.github.peacetrue.gradle.build-convention" version "${peaceGradleVersion}${tailSnapshot}" apply false
+}
+
+group "com.github.peacetrue.template"
+version "${peacetrueTemplateVersion}${tailSnapshot}"
+description "目录模板"
+
+apply plugin: "com.github.peacetrue.gradle.build-convention"
+
+subprojects {
+
+    dependencies {
+        testImplementation platform('org.springframework.boot:spring-boot-dependencies:2.7.5')
+        testImplementation "com.github.peacetrue.tplngn:peacetrue-tplngn-velocity"
+        testImplementation "org.springframework:spring-beans"
+        testImplementation "com.github.peacetrue:peacetrue-common"
+        testImplementation "com.fasterxml.jackson.core:jackson-databind"
+        testImplementation "com.fasterxml.jackson.dataformat:jackson-dataformat-properties"
+        testImplementation "org.apache.commons:commons-io"
+    }
+
+    task templateStructure(group: "${rootProject.name}") {
+        doLast {
+            exec {
+                workingDir("$projectDir/src/main/resources")
+                commandLine("tree", "${name.substring(name.length() + 1)}")
+                standardOutput(new FileOutputStream("$rootDir/docs/antora/modules/ROOT/examples/$projectDir/source-file-structure.txt"))
+            }
+        }
+    }
+
+    task resultStructure(group: "${rootProject.name}") {
+        doLast {
+            exec {
+                workingDir("$projectDir/src/test/resources")
+                commandLine("tree", "${name.substring(name.length() + 1)}")
+                standardOutput(new FileOutputStream("$rootDir/docs/antora/modules/ROOT/examples/$projectDir/target-file-structure.txt"))
+            }
+        }
+    }
+
+}

@@ -1,0 +1,6 @@
+plugins {
+    id "com.github.peacetrue.gradle.build-convention" version "${peaceGradleVersion}${tailSnapshot}"
+}
+
+version "${peaceTemplateReactadminVersion}${tailSnapshot}"
+description "React Admin 目录模板"

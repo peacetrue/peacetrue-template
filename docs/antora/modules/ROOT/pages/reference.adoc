@@ -1,0 +1,233 @@
+= 参考指南
+
+== Antora
+
+本文介绍 {app-name} 目录模板的详细内容。
+
+==== 文件结构
+
+Antora 文档默认存储在资源库的 https://docs.antora.org/antora/latest/standard-directories/[根目录^] 下，
+这里调整到 *docs/antora* 目录下。
+
+模板文件结构如下：
+
+[source%nowrap,txt]
+----
+include::example$source-file-structure.txt[]
+----
+
+Placeholder.txt 作用：Git 中空目录无法提交，需要目录下存在一个文件。
+
+以 learn-java 为例的结果文件结构如下：
+
+[source%nowrap,txt]
+----
+include::example$target-file-structure.txt[]
+----
+
+
+==== 变量说明
+
+.根对象
+[%autowidth.stretch]
+|===
+|名称 |描述 |类型 |备注
+
+|repository
+|资源库属性
+|<<Repository>>
+|
+|===
+
+[[Repository]]
+.资源库
+[%autowidth.stretch]
+|===
+|名称 |描述 |类型 |备注
+
+|name
+|名称
+|字符串
+|资源库名称，存储在磁盘上的目录名称，maven 依赖坐标中 artifactId 值。约定为 *小写中划线格式*，例如：learn-java
+
+|title
+|标题
+|字符串
+|例如：学习 Java
+
+|website
+|网址
+|字符串
+|资源库的文档地址，例如： https://peacetrue.github.io
+|===
+
+== Gradle
+
+=== 文件结构
+
+模板文件结构如下：
+
+[source%nowrap,txt]
+----
+include::example$source-file-structure.txt[]
+----
+
+以 learn-java 为例的结果文件结构如下：
+
+[source%nowrap,txt]
+----
+include::example$target-file-structure.txt[]
+----
+
+
+
+=== 变量说明
+
+.根对象
+[%autowidth.stretch]
+|===
+|名称 |描述 |类型 |备注
+
+|repository
+|资源库属性
+|<<Repository>>
+|
+|===
+
+[[Repository]]
+.资源库
+[%autowidth.stretch]
+|===
+|名称 |描述 |类型 |备注
+
+|name
+|名称
+|字符串
+|资源库名称，存储在磁盘上的目录名称，maven 依赖坐标中 artifactId 值。约定为 *小写中划线格式*，例如：learn-java
+
+|title
+|标题
+|字符串
+|例如：学习 Java
+
+|packageName
+|包名
+|字符串
+|例如：com.github.peacetrue.learn
+
+|multi
+|是否多模块项目
+|布尔型
+|默认 false
+|===
+
+== WebFlux
+
+=== 文件结构
+
+模板文件结构如下：
+
+[source%nowrap,txt]
+----
+include::example$source-file-structure.txt[]
+----
+
+以 learn-java 为例的结果文件结构如下：
+
+[source%nowrap,txt]
+----
+include::example$target-file-structure.txt[]
+----
+
+NOTE: 使用模板创建应用后，需要安装依赖。
+
+
+=== 变量说明
+
+.根对象
+[%autowidth.stretch]
+|===
+|名称 |描述 |类型 |备注
+
+|repository
+|资源库属性
+|<<Repository>>
+|
+|===
+
+[[Repository]]
+.资源库
+[%autowidth.stretch]
+|===
+|名称 |描述 |类型 |备注
+
+|name
+|名称
+|字符串
+|资源库名称，存储在磁盘上的目录名称，maven 依赖坐标中 artifactId 值。约定为 *小写中划线格式*，例如：learn-java
+
+|title
+|标题
+|字符串
+|例如：学习 Java
+
+|dependencies
+|依赖
+|字符串数组
+|此值会添加到依赖配置中。例如：@peace/user
+|===
+
+== React Admin
+
+=== 文件结构
+
+模板文件结构如下：
+
+[source%nowrap,txt]
+----
+include::example$source-file-structure.txt[]
+----
+
+以 learn-java 为例的结果文件结构如下：
+
+[source%nowrap,txt]
+----
+include::example$target-file-structure.txt[]
+----
+
+NOTE: 使用模板创建应用后，需要安装依赖。
+
+=== 变量说明
+
+.根对象
+[%autowidth.stretch]
+|===
+|名称 |描述 |类型 |备注
+
+|repository
+|资源库属性
+|<<Repository>>
+|
+|===
+
+[[Repository]]
+.资源库
+[%autowidth.stretch]
+|===
+|名称 |描述 |类型 |备注
+
+|name
+|名称
+|字符串
+|资源库名称，存储在磁盘上的目录名称，maven 依赖坐标中 artifactId 值。约定为 *小写中划线格式*，例如：learn-java
+
+|title
+|标题
+|字符串
+|例如：学习 Java
+
+|dependencies
+|依赖
+|字符串数组
+|此值会添加到依赖配置中。例如：@peace/user
+|===

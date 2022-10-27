@@ -1,0 +1,36 @@
+= 概述
+:app-name: ${repository.name}
+:website: ${repository.website}
+:foresight-repo-id:
+:imagesdir: docs/antora/modules/ROOT/assets/images
+
+image:https://img.shields.io/github/workflow/status/peacetrue/{app-name}/build/master["GitHub Workflow Status",link="https://github.com/peacetrue/{app-name}/actions"]
+image:https://snyk.io/test/github/peacetrue/{app-name}/badge.svg["Snyk",link="https://app.snyk.io/org/peacetrue"]
+image:https://api-public.service.runforesight.com/api/v1/badge/success?repoId={foresight-repo-id}["Foresight",link="https://foresight.thundra.io/repositories/github/peacetrue/{app-name}/test-runs"]
+image:https://img.shields.io/codecov/c/github/peacetrue/{app-name}/master["Codecov",link="https://app.codecov.io/gh/peacetrue/{app-name}"]
+
+//@formatter:off
+
+== 简介（What）
+
+{website}/{app-name}/[{app-name}]
+
+== 背景（Why）
+
+== 用法（How）
+
+
+
+== 参与者（Who）
+
+. peace(xiayouxue@hotmail.com)
+
+== 活动（When）
+
+初始提交于 2022-08-14，
+最近提交于 2022-10-18。
+
+== 许可证（License）
+
+https://github.com/peacetrue/{app-name}/blob/master/LICENSE[Apache License 2.0^]
+
