@@ -1,0 +1,24 @@
+learn-java
+|-- build.gradle
+|-- dependencies.gradle
+|-- gradle.properties
+`-- src
+    |-- main
+    |   |-- java
+    |   |   `-- com
+    |   |       `-- github
+    |   |           `-- peacetrue
+    |   |               `-- learn
+    |   |                   |-- LearnJavaApplication.java
+    |   |                   `-- LearnJavaConfiguration.java
+    |   `-- resources
+    |       `-- application.yml
+    `-- test
+        `-- java
+            `-- com
+                `-- github
+                    `-- peacetrue
+                        `-- learn
+                            `-- LearnJavaApplicationTest.java
+
+14 directories, 7 files

@@ -1,10 +1,37 @@
 = 参考指南
 
-== Antora
+本文介绍 {app-name} 中包含的目录模板。
+编写目录模板需遵循目录模板引擎相关规范，详情参考 xref:peacetrue-tplngn::manual.adoc[目录模板引擎]。
+//TODO 完善链接
+// @formatter:off
 
-本文介绍 {app-name} 目录模板的详细内容。
+== 前言
 
-==== 文件结构
+https://stackoverflow.com/questions/115983/how-do-i-add-an-empty-directory-to-a-git-repository[Git 无法提交空目录^]，
+如果目录模板中包含空目录，需要在目录中创建一个占位文件。
+这里笔者使用如下命令生成 *.gitkeep* 占位文件：
+
+[source%nowrap,bash]
+----
+find . -type d -empty | xargs -I '{}' touch "{}/.gitkeep"
+----
+// find . -name 'Placeholder.txt' | xargs rm -rf
+
+使用 learn-java 作为示例项目，贯穿以下目录模板的使用，最终构建出一个有效应用。
+
+learn-java 示例数据如下：
+
+[source%nowrap,properties]
+----
+include::example$learn-java.properties[]
+----
+
+== Antora 目录模板
+
+https://antora.org/[Antora^] 是一个多资源库文档站点生成器，适用于喜欢使用 AsciiDoc 编写的技术作者。
+笔者的 {website}[知识库] 是基于 Antora 构建的，所以经常需要使用到 Antora 目录模板。
+
+=== 文件结构
 
 Antora 文档默认存储在资源库的 https://docs.antora.org/antora/latest/standard-directories/[根目录^] 下，
 这里调整到 *docs/antora* 目录下。
@@ -13,20 +40,23 @@ Antora 文档默认存储在资源库的 https://docs.antora.org/antora/latest/s
 
 [source%nowrap,txt]
 ----
-include::example$source-file-structure.txt[]
+include::example$peacetrue-template-antora/source-file-structure.txt[]
 ----
 
-Placeholder.txt 作用：Git 中空目录无法提交，需要目录下存在一个文件。
+上面含有 3 个模板文件（以 vm 结尾的文件），其他文件直接拷贝。
 
 以 learn-java 为例的结果文件结构如下：
 
 [source%nowrap,txt]
 ----
-include::example$target-file-structure.txt[]
+include::example$peacetrue-template-antora/target-file-structure.txt[]
 ----
 
+最终文档预览效果如下：
 
-==== 变量说明
+image::1666883280533.jpg[]
+
+=== 变量说明
 
 .根对象
 [%autowidth.stretch]
@@ -35,12 +65,12 @@ include::example$target-file-structure.txt[]
 
 |repository
 |资源库属性
-|<<Repository>>
+|<<AntoraRepository>>
 |
 |===
 
-[[Repository]]
-.资源库
+[[AntoraRepository]]
+.Antora 资源库
 [%autowidth.stretch]
 |===
 |名称 |描述 |类型 |备注
@@ -48,12 +78,12 @@ include::example$target-file-structure.txt[]
 |name
 |名称
 |字符串
-|资源库名称，存储在磁盘上的目录名称，maven 依赖坐标中 artifactId 值。约定为 *小写中划线格式*，例如：learn-java
+|Antora 中资源库名称。约定为 *小写中划线格式*，例如：learn-java
 
 |title
 |标题
 |字符串
-|例如：学习 Java
+|Antora 中资源库标题，例如：学习 Java
 
 |website
 |网址
@@ -61,7 +91,7 @@ include::example$target-file-structure.txt[]
 |资源库的文档地址，例如： https://peacetrue.github.io
 |===
 
-== Gradle
+== Gradle 目录模板
 
 === 文件结构
 
@@ -69,18 +99,17 @@ include::example$target-file-structure.txt[]
 
 [source%nowrap,txt]
 ----
-include::example$source-file-structure.txt[]
+include::example$peacetrue-template-gradle/source-file-structure.txt[]
 ----
 
 以 learn-java 为例的结果文件结构如下：
 
 [source%nowrap,txt]
 ----
-include::example$target-file-structure.txt[]
+include::example$peacetrue-template-gradle/target-file-structure.txt[]
 ----
 
-
-
+[[GradleRoot]]
 === 变量说明
 
 .根对象
@@ -90,38 +119,33 @@ include::example$target-file-structure.txt[]
 
 |repository
 |资源库属性
-|<<Repository>>
+|<<GradleRepository>>
 |
 |===
 
-[[Repository]]
-.资源库
+[[GradleRepository]]
+.Gradle 资源库
 [%autowidth.stretch]
 |===
 |名称 |描述 |类型 |备注
 
+|group
+|组名
+|字符串
+|https://maven.apache.org/guides/mini/guide-naming-conventions.html[Maven GAV] 中 groupId 值，也用作 Java 包名，例如：com.github.peacetrue.learn
+
 |name
 |名称
 |字符串
-|资源库名称，存储在磁盘上的目录名称，maven 依赖坐标中 artifactId 值。约定为 *小写中划线格式*，例如：learn-java
+|Maven GAV 中 artifactId 值，与 <<AntoraRepository>> 中 name 相同
 
 |title
 |标题
 |字符串
-|例如：学习 Java
-
-|packageName
-|包名
-|字符串
-|例如：com.github.peacetrue.learn
-
-|multi
-|是否多模块项目
-|布尔型
-|默认 false
+|build.gradle 中 description，与 <<AntoraRepository>> 中 title 相同
 |===
 
-== WebFlux
+== WebFlux 目录模板
 
 === 文件结构
 
@@ -129,55 +153,23 @@ include::example$target-file-structure.txt[]
 
 [source%nowrap,txt]
 ----
-include::example$source-file-structure.txt[]
+include::example$peacetrue-template-webflux/source-file-structure.txt[]
 ----
 
 以 learn-java 为例的结果文件结构如下：
 
 [source%nowrap,txt]
 ----
-include::example$target-file-structure.txt[]
+include::example$peacetrue-template-webflux/target-file-structure.txt[]
 ----
 
-NOTE: 使用模板创建应用后，需要安装依赖。
-
+NOTE: WebFlux 没有 setting.gradle，使用时需要配合 <<_gradle_目录模板>>。
 
 === 变量说明
 
-.根对象
-[%autowidth.stretch]
-|===
-|名称 |描述 |类型 |备注
+同 <<GradleRoot, Gradle 变量说明>>。
 
-|repository
-|资源库属性
-|<<Repository>>
-|
-|===
-
-[[Repository]]
-.资源库
-[%autowidth.stretch]
-|===
-|名称 |描述 |类型 |备注
-
-|name
-|名称
-|字符串
-|资源库名称，存储在磁盘上的目录名称，maven 依赖坐标中 artifactId 值。约定为 *小写中划线格式*，例如：learn-java
-
-|title
-|标题
-|字符串
-|例如：学习 Java
-
-|dependencies
-|依赖
-|字符串数组
-|此值会添加到依赖配置中。例如：@peace/user
-|===
-
-== React Admin
+== React Admin 目录模板
 
 === 文件结构
 
@@ -185,14 +177,14 @@ NOTE: 使用模板创建应用后，需要安装依赖。
 
 [source%nowrap,txt]
 ----
-include::example$source-file-structure.txt[]
+include::example$peacetrue-template-reactadmin/source-file-structure.txt[]
 ----
 
 以 learn-java 为例的结果文件结构如下：
 
 [source%nowrap,txt]
 ----
-include::example$target-file-structure.txt[]
+include::example$peacetrue-template-reactadmin/target-file-structure.txt[]
 ----
 
 NOTE: 使用模板创建应用后，需要安装依赖。
@@ -219,15 +211,22 @@ NOTE: 使用模板创建应用后，需要安装依赖。
 |name
 |名称
 |字符串
-|资源库名称，存储在磁盘上的目录名称，maven 依赖坐标中 artifactId 值。约定为 *小写中划线格式*，例如：learn-java
+|package.json 中 name，与 <<AntoraRepository>> 中 name 相同
 
 |title
 |标题
 |字符串
-|例如：学习 Java
-
-|dependencies
-|依赖
-|字符串数组
-|此值会添加到依赖配置中。例如：@peace/user
+|index.html 中 title，与 <<AntoraRepository>> 中 title 相同
 |===
+
+== 完整示例
+
+使用以上所有目录模板，构建前后端分离应用，
+最终构建出的 learn-java 资源库文件结构如下：
+
+[source%nowrap,txt]
+----
+include::example$target-file-structure.txt[]
+----
+
+

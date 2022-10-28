@@ -1,0 +1,28 @@
+learn-java
+|-- build.gradle
+|-- gradle
+|   `-- wrapper
+|       |-- gradle-wrapper.jar
+|       `-- gradle-wrapper.properties
+|-- gradle.properties
+|-- gradlew
+|-- gradlew.bat
+|-- settings.gradle
+`-- src
+    |-- main
+    |   |-- java
+    |   |   `-- com
+    |   |       `-- github
+    |   |           `-- peacetrue
+    |   |               `-- learn
+    |   `-- resources
+    `-- test
+        |-- java
+        |   `-- com
+        |       `-- github
+        |           `-- peacetrue
+        |               `-- learn
+        `-- resources
+            `-- logback.xml
+
+17 directories, 8 files

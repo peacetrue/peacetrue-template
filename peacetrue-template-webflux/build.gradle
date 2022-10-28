@@ -1,7 +1,1 @@
-plugins {
-    id "com.github.peacetrue.gradle.build-convention" version "${peaceGradleVersion}${tailSnapshot}"
-}
-
-group "com.github.peacetrue.template"
-version "${peaceTemplateSpringbootVersion}${tailSnapshot}"
-description "Spring Boot 目录模板"
+description "Spring Boot WebFlux 目录模板"

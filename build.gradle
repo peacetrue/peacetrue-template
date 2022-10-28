@@ -1,3 +1,25 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        mavenCentral()
+    }
+
+    dependencies {
+        // 引入目录模板引擎 Gradle 插件，详情参考 https://peacetrue.github.io/peacetrue-tplngn
+        classpath "com.github.peacetrue.tplngn:peacetrue-tplngn-gradle:${peacetrueTplngnVersion}${tailSnapshot}"
+        // 引入 Antora 目录模板，详情参考 https://peacetrue.github.io/peacetrue-template
+        classpath "com.github.peacetrue.template:peacetrue-template-antora:${peacetrueTemplateVersion}${tailSnapshot}"
+        // 引入 Gradle 目录模板
+        classpath "com.github.peacetrue.template:peacetrue-template-gradle:${peacetrueTemplateVersion}${tailSnapshot}"
+        // 引入 Spring Boot WebFlux 目录模板
+        classpath "com.github.peacetrue.template:peacetrue-template-webflux:${peacetrueTemplateVersion}${tailSnapshot}"
+        // 引入 React Admin 目录模板
+        classpath "com.github.peacetrue.template:peacetrue-template-reactadmin:${peacetrueTemplateVersion}${tailSnapshot}"
+        // 引入更多自定义模板
+    }
+}
+
 plugins {
     id "com.github.peacetrue.gradle.build-convention" version "${peaceGradleVersion}${tailSnapshot}" apply false
 }
@@ -7,37 +29,115 @@ version "${peacetrueTemplateVersion}${tailSnapshot}"
 description "目录模板"
 
 apply plugin: "com.github.peacetrue.gradle.build-convention"
+apply "from": "dependencies.gradle"
 
-subprojects {
+// 执行目录模板引擎 Gradle 插件
+apply plugin: "com.github.peacetrue.tplngn"
 
-    dependencies {
-        testImplementation platform('org.springframework.boot:spring-boot-dependencies:2.7.5')
-        testImplementation "com.github.peacetrue.tplngn:peacetrue-tplngn-velocity"
-        testImplementation "org.springframework:spring-beans"
-        testImplementation "com.github.peacetrue:peacetrue-common"
-        testImplementation "com.fasterxml.jackson.core:jackson-databind"
-        testImplementation "com.fasterxml.jackson.dataformat:jackson-dataformat-properties"
-        testImplementation "org.apache.commons:commons-io"
+// 生成器项目所在目录上一级为实际项目目录
+def projectName = "learn-java"
+def projectPath = "$rootDir/$projectName"
+// 配置目录模板引擎，以下示例生成 learn-java 项目
+templateEngine {
+    // 统一声明变量，在多个目录模板之间使用，设计目录模板时尽可能使用不同的变量，避免变量冲突
+    def repository = [
+            name   : "$projectName",
+            title  : "学习 Java",
+            website: "https://peacetrue.github.io",
+            group  : "com.github.peacetrue.learn"
+    ]
+
+    // 生成 Antora 文档
+    evaluate {
+        // 模板位置。使用类路径，必须在 buildscript 中引入相应依赖，
+        // 多个目录模板之间使用逗号分割，例如：classpath:antora,classpath:gradle
+        // 还可以使用文件路径，此时无需引入依赖，例如：file:/path/to/you/template
+        templateLocation = "classpath:antora"
+        options = [resourceActions: [ignore: "\\.gitkeep"]]
+        // 变量。后续会修改变量值，这里使用克隆。变量具体说明需参考相关文档
+        variables = [repository: repository.clone()]
+        // 结果路径。生成的文件存放的目录，这里生成到实际项目中
+        resultPath = projectPath
     }
 
-    task templateStructure(group: "${rootProject.name}") {
-        doLast {
-            exec {
-                workingDir("$projectDir/src/main/resources")
-                commandLine("tree", "${name.substring(name.length() + 1)}")
-                standardOutput(new FileOutputStream("$rootDir/docs/antora/modules/ROOT/examples/$projectDir/source-file-structure.txt"))
-            }
-        }
+    // 生成后端模块 learn-java-backend
+    evaluate {
+        repository.put("name", "$projectName-backend")
+        templateLocation = "classpath:gradle,classpath:webflux"
+        options = [resourceActions: [ignore: "\\.gitkeep"]]
+        variables = [repository: repository.clone()]
+        resultPath = "$projectPath/${repository['name']}"
     }
 
-    task resultStructure(group: "${rootProject.name}") {
-        doLast {
-            exec {
-                workingDir("$projectDir/src/test/resources")
-                commandLine("tree", "${name.substring(name.length() + 1)}")
-                standardOutput(new FileOutputStream("$rootDir/docs/antora/modules/ROOT/examples/$projectDir/target-file-structure.txt"))
-            }
-        }
+    // 生成前端模块 learn-java-frontend
+    evaluate {
+        repository.put("name", "$projectName-frontend")
+        templateLocation = "classpath:reactadmin"
+        options = [resourceActions: [ignore: "\\.gitkeep"]]
+        variables = [repository: repository.clone()]
+        resultPath = "$projectPath/${repository['name']}"
     }
 
+    /*
+    // 多次配置渲染参数，可同时执行多个目录模板
+    evaluate {
+    }
+    */
 }
+
+evaluate {
+    doFirst {
+        delete("$projectPath")
+//        delete("$projectPath/$projectName-backend")
+    }
+    doLast {
+        exec {
+            workingDir("$rootDir")
+            commandLine("tree", "-a", "$projectName")
+            standardOutput(new FileOutputStream("$rootDir/docs/antora/modules/ROOT/examples/target-file-structure.txt"))
+        }
+    }
+}
+
+//生成项目内容后，初始化项目
+//evaluate.finalizedBy("init-${projectName}")
+task "init-${projectName}"(group: "peacetrue-tplngn") {
+    doLast {
+        exec {
+            workingDir("$projectPath/$projectName-frontend")
+            commandLine("pnpm", "install")
+        }
+    }
+}
+
+//项目初始化完成后，运行项目。如何并发执行 2 个任务？
+//initLearnJava.finalizedBy("run-${projectName}-backend", "run-${projectName}-frontend")
+task "run-${projectName}-frontend"(group: "peacetrue-tplngn") {
+    doLast {
+        exec {
+            workingDir("$projectPath/$projectName-frontend")
+            commandLine("pnpm", "start")
+            ignoreExitValue(true)
+        }
+    }
+}
+
+task "run-${projectName}-backend"(group: "peacetrue-tplngn") {
+    doLast {
+        exec {
+            workingDir("$projectPath/$projectName-backend")
+            commandLine("chmod", "+x", "gradlew")
+            ignoreExitValue(true)
+        }
+        exec {
+            workingDir("$projectPath/$projectName-backend")
+            commandLine("gradlew", "bootRun")
+            ignoreExitValue(true)
+        }
+    }
+}
+
+/*
+刚开始那会，只要有公司要就会去上班，随波逐流浑浑噩噩；
+
+*/

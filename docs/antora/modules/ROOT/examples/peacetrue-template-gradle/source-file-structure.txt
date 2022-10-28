@@ -1,0 +1,25 @@
+gradle
+|-- build.gradle.vm
+|-- gradle
+|   `-- wrapper
+|       |-- gradle-wrapper.jar
+|       `-- gradle-wrapper.properties
+|-- gradle.properties.vm
+|-- gradlew
+|-- gradlew.bat
+|-- settings.gradle.vm
+`-- src
+    |-- main
+    |   |-- java
+    |   |   `-- ${clazz.path(${repository.group})}
+    |   |       `-- .gitkeep
+    |   `-- resources
+    |       `-- .gitkeep
+    `-- test
+        |-- java
+        |   `-- ${clazz.path(${repository.group})}
+        |       `-- .gitkeep
+        `-- resources
+            `-- logback.xml.vm
+
+11 directories, 11 files

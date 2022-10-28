@@ -1,6 +1,7 @@
 = 概述
 :app-group: com.github.peacetrue.template
 :app-name: peacetrue-template
+:app-version: 1.0.0
 :website: https://peacetrue.github.io
 :foresight-repo-id:
 :imagesdir: docs/antora/modules/ROOT/assets/images
@@ -21,8 +22,8 @@ image:https://img.shields.io/nexus/s/{app-group}/{app-name}-antora?label={app-na
 
 我们可以使用命令行或者图形化界面手动创建一个项目。
 最开始会比较兴奋，随着类似的项目创建的越来越多，慢慢对重复操作失去热情，并尝试找到一些方式快速执行重复操作。
-其中一种方式是使用命令行脚本记录下这些重复操作，后续运行命令行脚本即可快速得到新项目，
-还有一种方式是使用目录模板，配合 xref:peacetrue-tplngn::manual.adoc#evaluate[目录模板引擎] 渲染之后，也能快速得到新项目。
+其中一种方式是使用命令行脚本记录下这些重复操作，后续运行命令行脚本即可快速生成新项目；
+还有一种方式是使用目录模板，配合 xref:peacetrue-tplngn::manual.adoc#evaluate[目录模板引擎] 渲染之后，也能快速生成新项目。
 命令行脚本记录的是过程，有助于详细了解项目的创建逻辑；
 目录模板记录的是结果，便于直观感受最终的内容。
 
@@ -30,19 +31,19 @@ TIP: 命令行脚本可以记录；基于图形化界面的系统是否可以通
 
 == 用法（How）
 
-配置如下 Gradle 依赖：
+引用如下 Gradle 依赖：
 
 [source%nowrap,gradle,subs="specialchars,attributes"]
 ----
-implementation "{app-group}:{app-name}-antora:1.0.0-SNAPSHOT"
-implementation "{app-group}:{app-name}-gradle:1.0.0-SNAPSHOT"
-implementation "{app-group}:{app-name}-webmvc:1.0.0-SNAPSHOT"
-implementation "{app-group}:{app-name}-webflux:1.0.0-SNAPSHOT"
-implementation "{app-group}:{app-name}-reactadmin:1.0.0-SNAPSHOT"
+implementation "{app-group}:{app-name}-antora:{app-version}"
+implementation "{app-group}:{app-name}-gradle:{app-version}"
+implementation "{app-group}:{app-name}-webmvc:{app-version}"
+implementation "{app-group}:{app-name}-webflux:{app-version}"
+implementation "{app-group}:{app-name}-reactadmin:{app-version}"
 ----
 
 //TODO 链接坐标转换器
-如需转换为其他格式的 GAV 坐标，可使用 坐标转换器。
+如需转换为其他格式的 GAV 坐标，可使用 http://bee.peacetrue.cn/function/conversion[坐标转换器^]。
 
 == 维护者（Who）
 

@@ -1,0 +1,48 @@
+import java.nio.file.Files
+import java.nio.file.Paths
+
+// rootProject 仅用于为其他模块提供单元测试的共用类，不会作为类库发布
+dependencies {
+    compileOnly "org.projectlombok:lombok"
+    annotationProcessor "org.projectlombok:lombok"
+    implementation "com.github.peacetrue:peacetrue-common"
+    implementation "com.fasterxml.jackson.core:jackson-databind"
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-properties"
+    implementation "org.apache.commons:commons-text:1.10.0"
+    implementation "com.github.peacetrue.tplngn:peacetrue-tplngn-core"
+}
+
+subprojects {
+    dependencies {
+        testImplementation rootProject
+        testImplementation "com.github.peacetrue.tplngn:peacetrue-tplngn-velocity"
+        testImplementation "com.github.peacetrue:peacetrue-common"
+        testImplementation "org.apache.commons:commons-io"
+    }
+
+    build.finalizedBy("templateStructure", "resultStructure")
+
+    def exampleDir = "$rootDir/docs/antora/modules/ROOT/examples/$name"
+    // 生成模板文件结构
+    task templateStructure(group: "${rootProject.name}") {
+        Files.createDirectories(Paths.get(exampleDir))
+        doLast {
+            exec {
+                workingDir("$projectDir/src/main/resources")
+                commandLine("tree", "-a", "${project.name.substring(rootProject.name.length() + 1)}")
+                standardOutput(new FileOutputStream("$exampleDir/source-file-structure.txt"))
+            }
+        }
+    }
+
+    // 生成结果文件结构
+    task resultStructure(group: "${rootProject.name}") {
+        doLast {
+            exec {
+                workingDir("$projectDir/src/test/resources")
+                commandLine("tree", "-a", "learn-java")
+                standardOutput(new FileOutputStream("$exampleDir/target-file-structure.txt"))
+            }
+        }
+    }
+}

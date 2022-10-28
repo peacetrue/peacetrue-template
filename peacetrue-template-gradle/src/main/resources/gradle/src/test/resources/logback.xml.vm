@@ -10,5 +10,5 @@
     <root level="info">
         <appender-ref ref="stdout"/>
     </root>
-    <logger name="${repository.packageName}" level="trace" />
+    <logger name="${repository.group}" level="trace" />
 </configuration>

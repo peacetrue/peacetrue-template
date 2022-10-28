@@ -1,0 +1,24 @@
+learn-java
+|-- .gitignore
+|-- LICENSE
+|-- README.adoc
+`-- docs
+    |-- README.graffle
+    `-- antora
+        |-- antora.yml
+        |-- modules
+        |   `-- ROOT
+        |       |-- assets
+        |       |   |-- attachments
+        |       |   `-- images
+        |       |-- examples
+        |       |-- nav.adoc
+        |       `-- pages
+        |           |-- index.adoc
+        |           |-- manual.adoc
+        |           |-- reference.adoc
+        |           |-- start.adoc
+        |           `-- version.adoc
+        `-- playbook.yml
+
+9 directories, 12 files

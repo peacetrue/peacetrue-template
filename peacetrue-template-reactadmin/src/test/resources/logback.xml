@@ -10,5 +10,5 @@
     <root level="info">
         <appender-ref ref="stdout"/>
     </root>
-    <logger name="com.github.peacetrue.template.springboot" level="trace" />
+    <logger name="webflux" level="trace" />
 </configuration>

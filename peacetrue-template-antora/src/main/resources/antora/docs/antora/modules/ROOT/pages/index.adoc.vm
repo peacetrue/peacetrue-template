@@ -1,4 +1,5 @@
 = 概述
+:app-group: ${repository.group}
 :app-name: ${repository.name}
 :website: ${repository.website}
 :foresight-repo-id:
@@ -8,6 +9,7 @@ image:https://img.shields.io/github/workflow/status/peacetrue/{app-name}/build/m
 image:https://snyk.io/test/github/peacetrue/{app-name}/badge.svg["Snyk",link="https://app.snyk.io/org/peacetrue"]
 image:https://api-public.service.runforesight.com/api/v1/badge/success?repoId={foresight-repo-id}["Foresight",link="https://foresight.thundra.io/repositories/github/peacetrue/{app-name}/test-runs"]
 image:https://img.shields.io/codecov/c/github/peacetrue/{app-name}/master["Codecov",link="https://app.codecov.io/gh/peacetrue/{app-name}"]
+image:https://img.shields.io/nexus/r/{app-group}/{app-name}?label={app-name}&server=https%3A%2F%2Foss.sonatype.org%2F["{app-name}",link="https://oss.sonatype.org/index.html#nexus-search;gav~~{app-name}~~~"]
 
 //@formatter:off
 
@@ -19,18 +21,14 @@ image:https://img.shields.io/codecov/c/github/peacetrue/{app-name}/master["Codec
 
 == 用法（How）
 
-
-
 == 参与者（Who）
 
 . peace(xiayouxue@hotmail.com)
 
 == 活动（When）
 
-初始提交于 2022-08-14，
-最近提交于 2022-10-18。
+初始提交于 {docdatetime}，最近提交于 {docdatetime}。
 
 == 许可证（License）
 
 https://github.com/peacetrue/{app-name}/blob/master/LICENSE[Apache License 2.0^]
-

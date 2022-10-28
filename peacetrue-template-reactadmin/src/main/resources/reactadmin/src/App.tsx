@@ -1,13 +1,16 @@
 import * as React from 'react';
-import {Admin, Resource, ListGuesser} from "react-admin";
-import jsonServerProvider from 'ra-data-json-server';
-
-const dataProvider = jsonServerProvider(process.env.REACT_APP_BASE_URL);
+import {Admin} from "react-admin";
+import {dataProvider} from "./DataProviderInstance";
+import {i18nProvider} from "./i18n";
+import {Resources} from "./modules";
 
 function App() {
   return (
-    <Admin dataProvider={dataProvider}>
-      <Resource name="users" list={ListGuesser}/>
+    <Admin
+      dataProvider={dataProvider}
+      i18nProvider={i18nProvider}
+    >
+      {Resources}
     </Admin>
   );
 }
