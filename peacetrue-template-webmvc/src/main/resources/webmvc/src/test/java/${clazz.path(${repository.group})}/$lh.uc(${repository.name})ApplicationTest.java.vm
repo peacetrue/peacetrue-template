@@ -5,22 +5,24 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
- * 测试${repository.title}应用。
+ * ${repository.title}应用测试。
  *
  * @author peace
  **/
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@ActiveProfiles({"dev", "unittest"})
 class $lh.uc(${repository.name})ApplicationTest {
 
     @Autowired
-    private $lh.uc(${repository.name})Application $lh.lc(${repository.name})Application;
+    private $lh.uc(${repository.name})Application application;
 
     @Test
     void basic() {
-        Assertions.assertNotNull($lh.lc(${repository.name})Application);
+        Assertions.assertNotNull(application);
     }
 }

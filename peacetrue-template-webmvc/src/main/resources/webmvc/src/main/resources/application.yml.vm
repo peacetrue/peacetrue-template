@@ -2,7 +2,7 @@ spring:
   profiles:
     group:
       default: dev
-      dev: common,log-console,db,db-h2-file,date-format
+      dev: common,log-console,db,db-h2-file,log4jdbc,date-format
       prod: common,log-file,db,db-mysql,date-format
 
 ---
@@ -18,6 +18,9 @@ spring:
     web:
       pageable:
         max-page-size: 2000
+  jpa:
+    # WARN 78842 --- [main] JpaBaseConfiguration${esc.d}JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+    open-in-view: false
 
 ---
 spring.config.activate.on-profile: date-format
@@ -42,6 +45,9 @@ logging:
     org.springframework: debug
     com.zaxxer.hikari: debug
     com.github.peacetrue: trace
+    # log4jdbc 配置
+    jdbc: off
+    jdbc.sqlonly: info
 
 ---
 spring.config.activate.on-profile: log-file
@@ -50,7 +56,7 @@ logging:
   level:
     root: warn
   file:
-    name: logs/${spring.application.name}.log
+    name: logs/${esc.d}{spring.application.name}.log
   logback:
     rollingpolicy:
       max-history: 30
@@ -65,43 +71,55 @@ server:
 spring.config.activate.on-profile: db
 
 db:
+  # 这里就是空字符串
+  log4jdbc:
   host: localhost
-  schema: ${spring.application.name}
+  schema: ${esc.d}{spring.application.name}
   username: root
   password: 1qw2!QW@
+
+---
+spring.config.activate.on-profile: log4jdbc
+db:
+  driver: net.sf.log4jdbc.DriverSpy
+  log4jdbc: jdbc:log4
 
 ---
 spring.config.activate.on-profile: db-h2-file
 
 spring:
   datasource:
-    url: jdbc:h2:file:./${db.schema};DB_CLOSE_ON_EXIT=FALSE;MODE=MySQL;DATABASE_TO_LOWER=TRUE
+    driver-class-name: ${esc.d}{db.driver:org.h2.Driver}
+    url: ${esc.d}{db.log4jdbc}jdbc:h2:file:./${db.schema};DB_CLOSE_ON_EXIT=FALSE;MODE=MySQL;DATABASE_TO_LOWER=TRUE
 
 ---
 spring.config.activate.on-profile: db-h2-mem
 
 spring:
   datasource:
-    url: jdbc:h2:mem:${db.schema};DB_CLOSE_ON_EXIT=FALSE;MODE=MySQL;DATABASE_TO_LOWER=TRUE
+    driver-class-name: ${esc.d}{db.driver:org.h2.Driver}
+    url: ${esc.d}{db.log4jdbc}jdbc:h2:mem:${db.schema};DB_CLOSE_ON_EXIT=FALSE;MODE=MySQL;DATABASE_TO_LOWER=TRUE
 
 ---
 spring.config.activate.on-profile: db-mysql
 
 spring:
   datasource:
-    url: jdbc:mysql://${db.host}:3306/${db.schema}?autoreconnect=true&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
-    username: ${db.username}
-    password: ${db.password}
+    driver-class-name: ${esc.d}{db.driver:com.mysql.cj.jdbc.Driver}
+    url: ${esc.d}{db.log4jdbc}jdbc:mysql://${db.host}:3306/${db.schema}?autoreconnect=true&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${esc.d}{db.username}
+    password: ${esc.d}{db.password}
   flyway:
-    schemas: ${db.schema}
+    driver-class-name: ${esc.d}{db.driver:com.mysql.cj.jdbc.Driver}
+    url: ${esc.d}{db.log4jdbc}jdbc:mysql://${db.host}:3306?autoreconnect=true&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+    user: ${esc.d}{db.username}
+    password: ${esc.d}{db.password}
+    schemas: ${esc.d}{db.schema}
     create-schemas: true
-    default-schema: ${db.schema}
+    default-schema: ${esc.d}{db.schema}
 
 ---
 spring.config.activate.on-profile: dev
 
 ---
 spring.config.activate.on-profile: prod
-
-
-

@@ -1,77 +1,78 @@
 learn-java
-|-- .gitignore
-|-- LICENSE
-|-- README.adoc
-|-- docs
-|   |-- README.graffle
-|   `-- antora
-|       |-- antora.yml
-|       |-- modules
-|       |   `-- ROOT
-|       |       |-- assets
-|       |       |   |-- attachments
-|       |       |   `-- images
-|       |       |-- examples
-|       |       |-- nav.adoc
-|       |       `-- pages
-|       |           |-- index.adoc
-|       |           |-- manual.adoc
-|       |           |-- reference.adoc
-|       |           |-- start.adoc
-|       |           `-- version.adoc
-|       `-- playbook.yml
-|-- learn-java-backend
-|   |-- build.gradle
-|   |-- dependencies.gradle
-|   |-- gradle
-|   |   `-- wrapper
-|   |       |-- gradle-wrapper.jar
-|   |       `-- gradle-wrapper.properties
-|   |-- gradle.properties
-|   |-- gradlew
-|   |-- gradlew.bat
-|   |-- settings.gradle
-|   `-- src
-|       |-- main
-|       |   |-- java
-|       |   |   `-- com
-|       |   |       `-- github
-|       |   |           `-- peacetrue
-|       |   |               `-- learn
-|       |   |                   |-- LearnJavaBackendApplication.java
-|       |   |                   `-- LearnJavaBackendConfiguration.java
-|       |   `-- resources
-|       |       `-- application.yml
-|       `-- test
-|           |-- java
-|           |   `-- com
-|           |       `-- github
-|           |           `-- peacetrue
-|           |               `-- learn
-|           |                   `-- LearnJavaBackendApplicationTest.java
-|           `-- resources
-|               `-- logback.xml
-`-- learn-java-frontend
-    |-- .env
-    |-- .env.local
-    |-- .env.production
-    |-- package.json
-    |-- public
-    |   |-- favicon.ico
-    |   |-- index.html
-    |   |-- logo192.png
-    |   |-- logo512.png
-    |   |-- manifest.json
-    |   `-- robots.txt
-    |-- src
-    |   |-- App.css
-    |   |-- App.tsx
-    |   |-- index.css
-    |   |-- index.tsx
-    |   |-- logo.svg
-    |   |-- react-app-env.d.ts
-    |   |-- reportWebVitals.ts
-    |   `-- setupTests.ts
-    `-- tsconfig.json
+├── .gitignore
+├── LICENSE
+├── README.adoc
+├── docs
+│   ├── README.graffle
+│   └── antora
+│       ├── antora.yml
+│       ├── modules
+│       │   └── ROOT
+│       │       ├── assets
+│       │       │   ├── attachments
+│       │       │   └── images
+│       │       ├── examples
+│       │       ├── nav.adoc
+│       │       └── pages
+│       │           ├── index.adoc
+│       │           ├── manual.adoc
+│       │           ├── reference.adoc
+│       │           ├── start.adoc
+│       │           └── version.adoc
+│       └── playbook.yml
+├── learn-java-backend
+│   ├── build.gradle
+│   ├── gradle
+│   │   └── wrapper
+│   │       ├── gradle-wrapper.jar
+│   │       └── gradle-wrapper.properties
+│   ├── gradle.properties
+│   ├── gradlew
+│   ├── gradlew.bat
+│   ├── settings.gradle
+│   └── src
+│       ├── main
+│       │   ├── java
+│       │   │   └── com
+│       │   │       └── github
+│       │   │           └── peacetrue
+│       │   │               └── learn
+│       │   │                   ├── LearnJavaBackendApplication.java
+│       │   │                   └── LearnJavaBackendConfiguration.java
+│       │   └── resources
+│       │       ├── application.yml
+│       │       └── log4jdbc.properties
+│       └── test
+│           ├── java
+│           │   └── com
+│           │       └── github
+│           │           └── peacetrue
+│           │               └── learn
+│           │                   └── LearnJavaBackendApplicationTest.java
+│           └── resources
+│               ├── application-unittest.yml
+│               └── logback.xml
+└── learn-java-frontend
+    ├── .env
+    ├── .env.local
+    ├── .env.production
+    ├── package.json
+    ├── public
+    │   ├── favicon.ico
+    │   ├── index.html
+    │   ├── logo192.png
+    │   ├── logo512.png
+    │   ├── manifest.json
+    │   └── robots.txt
+    ├── src
+    │   ├── App.css
+    │   ├── App.tsx
+    │   ├── index.css
+    │   ├── index.tsx
+    │   ├── logo.svg
+    │   ├── react-app-env.d.ts
+    │   ├── reportWebVitals.ts
+    │   └── setupTests.ts
+    └── tsconfig.json
 
-30 directories, 44 files
+30 directories, 45 files

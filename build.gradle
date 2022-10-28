@@ -12,8 +12,8 @@ buildscript {
         classpath "com.github.peacetrue.template:peacetrue-template-antora:${peacetrueTemplateVersion}${tailSnapshot}"
         // 引入 Gradle 目录模板
         classpath "com.github.peacetrue.template:peacetrue-template-gradle:${peacetrueTemplateVersion}${tailSnapshot}"
-        // 引入 Spring Boot WebFlux 目录模板
-        classpath "com.github.peacetrue.template:peacetrue-template-webflux:${peacetrueTemplateVersion}${tailSnapshot}"
+        // 引入 Spring Boot WebMVC 目录模板
+        classpath "com.github.peacetrue.template:peacetrue-template-webmvc:${peacetrueTemplateVersion}${tailSnapshot}"
         // 引入 React Admin 目录模板
         classpath "com.github.peacetrue.template:peacetrue-template-reactadmin:${peacetrueTemplateVersion}${tailSnapshot}"
         // 引入更多自定义模板
@@ -63,7 +63,7 @@ templateEngine {
     // 生成后端模块 learn-java-backend
     evaluate {
         repository.put("name", "$projectName-backend")
-        templateLocation = "classpath:gradle,classpath:webflux"
+        templateLocation = "classpath:gradle,classpath:webmvc"
         options = [resourceActions: [ignore: "\\.gitkeep"]]
         variables = [repository: repository.clone()]
         resultPath = "$projectPath/${repository['name']}"
@@ -88,7 +88,6 @@ templateEngine {
 evaluate {
     doFirst {
         delete("$projectPath")
-//        delete("$projectPath/$projectName-backend")
     }
     doLast {
         exec {

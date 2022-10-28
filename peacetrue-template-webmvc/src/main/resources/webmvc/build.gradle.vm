@@ -1,7 +1,5 @@
-import org.springframework.boot.gradle.plugin.SpringBootPlugin
-## @formatter:off
 plugins {
-    id "com.github.peacetrue.gradle.build-convention" version "${esc.d}{peaceGradleVersion}${esc.d}{tailSnapshot}"
+    id "com.github.peacetrue.gradle.build-convention" version "${peaceGradleVersion}${tailSnapshot}" // 帮助模板，根模块时需要
     // Spring Boot Gradle 插件：https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/
     id "org.springframework.boot" version "2.7.0"
     id "application"
@@ -12,20 +10,38 @@ version "${esc.d}{${lh.lc(${repository.name})}Version}${esc.d}{tailSnapshot}"
 description "${repository.title}"
 
 dependencies {
-    implementation platform(SpringBootPlugin.BOM_COORDINATES) //版本管理
-
-    implementation "org.springframework.boot:spring-boot-starter-webflux"
+    // web 服务
+    implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-actuator"
-    implementation "org.springframework.boot:spring-boot-starter-data-r2dbc"
-    implementation "dev.miku:r2dbc-mysql"
+
+    // 数据库
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
     implementation "mysql:mysql-connector-java"
-    implementation "io.r2dbc:r2dbc-h2"
     implementation "com.h2database:h2"
     implementation "org.flywaydb:flyway-core"
+    // flyway 操作数据库时依赖 spring-jdbc
+    implementation "org.springframework:spring-jdbc"
+    // 支持 MySQL 8.0 时需要使用。flyway : Unsupported Database: MySQL 8.0 https://github.com/flyway/flyway/issues/2000
+    implementation "org.flywaydb:flyway-mysql"
+    // 打印完整 SQL 语句，https://github.com/arthurblake/log4jdbc
+    implementation "com.googlecode.log4jdbc:log4jdbc"
 
-    #foreach($dependency in ${repository.dependencies})
-    implementation "$dependency"
-    #end
+    // OpenAPI 3 文档支持：https://github.com/springdoc/springdoc-openapi。本地访问：http://localhost:8080/swagger-ui.html
+    implementation "org.springdoc:springdoc-openapi-ui"
+    // 从 javadoc 读取接口描述：https://springdoc.org/#javadoc-support
+    implementation "org.springdoc:springdoc-openapi-javadoc"
+    implementation "com.github.therapi:therapi-runtime-javadoc"
+    annotationProcessor "com.github.therapi:therapi-runtime-javadoc-scribe"
 
+    // peace
+    implementation "com.github.peacetrue:peacetrue-common"
+    implementation "com.github.peacetrue.spring:peacetrue-spring-web"
+
+    // 测试
     testImplementation "org.springframework.boot:spring-boot-starter-test"
 }
+
+// 加载自定义内容
+fileTree("${projectDir}/extend").forEach({
+    apply "from": "extend/$it.name"
+})

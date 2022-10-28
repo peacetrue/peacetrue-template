@@ -1,6 +1,6 @@
 learn-java
 |-- build.gradle
-|-- dependencies.gradle
+|-- extend.gradle
 |-- gradle.properties
 `-- src
     |-- main

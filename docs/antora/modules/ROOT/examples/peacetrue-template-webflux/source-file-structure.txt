@@ -1,6 +1,6 @@
 webflux
 |-- build.gradle.vm
-|-- dependencies.gradle
+|-- extend.gradle
 |-- gradle.properties.vm
 `-- src
     |-- main

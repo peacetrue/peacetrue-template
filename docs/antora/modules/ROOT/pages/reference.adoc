@@ -145,7 +145,7 @@ include::example$peacetrue-template-gradle/target-file-structure.txt[]
 |build.gradle 中 description，与 <<AntoraRepository>> 中 title 相同
 |===
 
-== WebFlux 目录模板
+== WebMVC 目录模板
 
 === 文件结构
 
@@ -153,17 +153,17 @@ include::example$peacetrue-template-gradle/target-file-structure.txt[]
 
 [source%nowrap,txt]
 ----
-include::example$peacetrue-template-webflux/source-file-structure.txt[]
+include::example$peacetrue-template-webmvc/source-file-structure.txt[]
 ----
 
 以 learn-java 为例的结果文件结构如下：
 
 [source%nowrap,txt]
 ----
-include::example$peacetrue-template-webflux/target-file-structure.txt[]
+include::example$peacetrue-template-webmvc/target-file-structure.txt[]
 ----
 
-NOTE: WebFlux 没有 setting.gradle，使用时需要配合 <<_gradle_目录模板>>。
+NOTE: WebMVC 没有 setting.gradle，使用时需要配合 <<_gradle_目录模板>>。
 
 === 变量说明
 

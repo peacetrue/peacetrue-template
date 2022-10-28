@@ -11,6 +11,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class $lh.uc(${repository.name})Application {
 
+    /**
+     * 程序启动入口。
+     *
+     * @param args 应用参数
+     */
     public static void main(String[] args) {
         SpringApplication.run($lh.uc(${repository.name})Application.class, args);
     }

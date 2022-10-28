@@ -1,0 +1,4 @@
+tailSnapshot=-SNAPSHOT
+peaceGradleVersion=1.1.1
+springBootDependencies=2.7.0
+${lh.lc(${repository.name})}Version=1.0.0

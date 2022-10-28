@@ -1,0 +1,20 @@
+webmvc
+├── build.gradle.vm
+├── gradle.properties.vm
+└── src
+    ├── main
+    │   ├── java
+    │   │   └── ${clazz.path(${repository.group})}
+    │   │       ├── $lh.uc(${repository.name})Application.java.vm
+    │   │       └── $lh.uc(${repository.name})Configuration.java.vm
+    │   └── resources
+    │       ├── application.yml.vm
+    │       └── log4jdbc.properties
+    └── test
+        ├── java
+        │   └── ${clazz.path(${repository.group})}
+        │       └── $lh.uc(${repository.name})ApplicationTest.java.vm
+        └── resources
+            └── application-unittest.yml
+
+9 directories, 8 files

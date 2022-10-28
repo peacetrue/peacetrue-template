@@ -1,29 +1,28 @@
-package com.github.peacetrue.template.webflux;
+package com.github.peacetrue.template.webmvc;
 
 import com.github.peacetrue.io.ConditionalResourcesLoader;
 import com.github.peacetrue.io.Resource;
+import com.github.peacetrue.io.ResourcesUtils;
 import com.github.peacetrue.template.DirectoryTemplateEngine;
-import com.github.peacetrue.template.Options;
+import com.github.peacetrue.template.Repository;
 import com.github.peacetrue.template.TemplateUtils;
 import com.github.peacetrue.template.VelocityTemplateEngine;
 import com.github.peacetrue.test.SourcePathUtils;
-import com.github.peacetrue.util.ArrayUtils;
 import com.github.peacetrue.util.FileUtils;
-import com.google.common.collect.ImmutableMap;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
 import org.junit.jupiter.api.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
+import static com.github.peacetrue.template.TemplateUtils.getOptions;
 import static com.github.peacetrue.test.SourcePathUtils.getCustomAbsolutePath;
 
 /**
@@ -31,27 +30,7 @@ import static com.github.peacetrue.test.SourcePathUtils.getCustomAbsolutePath;
  **/
 @Slf4j
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class SpringBootTest {
-
-    private static Options getOptions() {
-        return Options.builder()
-                .resourceActions(
-                        Options.ResourcePathPatterns.builder()
-                                .ignore("\\.gitkeep")
-                                .build()
-                )
-                .build();
-    }
-
-    private static Map<String, Object> getRepositoryVariables() {
-        return ImmutableMap.<String, Object>builder()
-                .put("name", "learn-java")
-                .put("title", "学习 Java")
-                .put("website", "https://peacetrue.github.io")
-                .put("group", "com.github.peacetrue.learn.java")
-                .put("dependencies", Arrays.asList("com.github.peacetrue:peacetrue-beans"))
-                .build();
-    }
+class WebMvcTest {
 
     private List<String> templateNames = Collections.emptyList();
 
@@ -59,19 +38,11 @@ class SpringBootTest {
     @Order(1)
     @Test
     void template() {
-        List<Resource> resources = ConditionalResourcesLoader.DEFAULT.getResources("classpath:webflux");
-        Assertions.assertEquals(16, resources.size());
-        List<Resource> vmResources = resources.stream().filter(resource -> resource.getPath().endsWith("vm")).collect(Collectors.toList());
-        Assertions.assertEquals(5, vmResources.size());
-
-        templateNames = vmResources.stream()
-                .filter(resource -> !resource.isDirectory())
-                .map(Resource::getPath)
-                .map(path -> ArrayUtils.lastSafely(path.split(File.separator)))
-                .map(path -> StringUtils.removeEnd(path, ".vm"))
-                .collect(Collectors.toList());
-
-        log.info("templateNames: {}", templateNames);
+        String targetPath = SourcePathUtils.getCustomAbsolutePath(false, true, "/webmvc");
+        List<Resource> resources = ResourcesUtils.getDirectoryResources(Paths.get(targetPath));
+        Assertions.assertEquals(18, resources.size());
+        templateNames = TemplateUtils.findTemplateNames(resources);
+        Assertions.assertEquals(6, templateNames.size());
     }
 
     @Order(10)
@@ -81,12 +52,10 @@ class SpringBootTest {
         String targetPath = SourcePathUtils.getTestResourceAbsolutePath("/" + targetName);
         Path targetPathObject = Paths.get(targetPath);
         if (Files.exists(targetPathObject)) FileUtils.deleteRecursively(targetPathObject);
-        Map<String, Map<String, Object>> repository = Collections.singletonMap("repository", getRepositoryVariables());
         DirectoryTemplateEngine templateEngine = VelocityTemplateEngine.buildVelocityDirectoryTemplateEngine();
-        templateEngine.evaluate("classpath:gradle", getOptions(), repository, targetPath);
-        templateEngine.evaluate("classpath:webflux", getOptions(), repository, targetPath);
+        templateEngine.evaluate("classpath:webmvc", getOptions(), Repository.LEARN_JAVA_ROOT, targetPath);
         List<Resource> resources = ConditionalResourcesLoader.DEFAULT.getResources("file:" + targetPath);
-        Assertions.assertEquals(32, resources.size());
+        Assertions.assertEquals(24, resources.size());
         for (Resource resource : resources) {
             if (resource.isDirectory() || templateNames.stream().noneMatch(item -> resource.getPath().endsWith(item)))
                 continue;
@@ -107,7 +76,7 @@ class SpringBootTest {
     void storeRepositoryVariables() {
         String resourcePath = getCustomAbsolutePath(false, true, "/webmvc-variables.properties");
         Path resourcePathObject = Paths.get(resourcePath);
-        TemplateUtils.write(resourcePathObject, getRepositoryVariables());
+        TemplateUtils.write(resourcePathObject, Repository.LEARN_JAVA_ROOT);
         Assertions.assertTrue(Files.exists(resourcePathObject));
     }
 

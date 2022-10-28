@@ -1,0 +1,26 @@
+learn-java
+├── build.gradle
+├── gradle.properties
+└── src
+    ├── main
+    │   ├── java
+    │   │   └── com
+    │   │       └── github
+    │   │           └── peacetrue
+    │   │               └── learn
+    │   │                   ├── LearnJavaApplication.java
+    │   │                   └── LearnJavaConfiguration.java
+    │   └── resources
+    │       ├── application.yml
+    │       └── log4jdbc.properties
+    └── test
+        ├── java
+        │   └── com
+        │       └── github
+        │           └── peacetrue
+        │               └── learn
+        │                   └── LearnJavaApplicationTest.java
+        └── resources
+            └── application-unittest.yml
+
+15 directories, 8 files

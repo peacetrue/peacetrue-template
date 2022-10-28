@@ -1,4 +1,4 @@
-package com.github.peacetrue.application;
+package ${repository.group};
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @author peace
  **/
 @Configuration
-public class PeacetrueWebMvcConfiguration {
+public class $lh.uc(${repository.name})Configuration {
 
     /**
      * 开发环境允许跨域。
