@@ -29,7 +29,7 @@ version "${peacetrueTemplateVersion}${tailSnapshot}"
 description "目录模板"
 
 apply plugin: "com.github.peacetrue.gradle.build-convention"
-apply "from": "dependencies.gradle"
+apply from: "dependencies.gradle"
 
 // 执行目录模板引擎 Gradle 插件
 apply plugin: "com.github.peacetrue.tplngn"
@@ -44,7 +44,7 @@ templateEngine {
             name   : "$projectName",
             title  : "学习 Java",
             website: "https://peacetrue.github.io",
-            group  : "com.github.peacetrue.learn"
+            group  : "com.github.peacetrue.learn",
     ]
 
     // 生成 Antora 文档
@@ -65,7 +65,13 @@ templateEngine {
         repository.put("name", "$projectName-backend")
         templateLocation = "classpath:gradle,classpath:webmvc"
         options = [resourceActions: [ignore: "\\.gitkeep"]]
-        variables = [repository: repository.clone()]
+        variables = [
+                repository  : repository.clone(),
+                dependencies: [
+                        "com.github.peacetrue.dictionary:peacetrue-dictionary-service-impl",
+                        "com.github.peacetrue.dictionary:peacetrue-dictionary-controller"
+                ]
+        ]
         resultPath = "$projectPath/${repository['name']}"
     }
 
@@ -74,7 +80,12 @@ templateEngine {
         repository.put("name", "$projectName-frontend")
         templateLocation = "classpath:reactadmin"
         options = [resourceActions: [ignore: "\\.gitkeep"]]
-        variables = [repository: repository.clone()]
+        variables = [
+                repository    : repository.clone(),
+                "dependencies": [
+                        [name: "ra-dictionary", version: "^0.0.0-1"]
+                ]
+        ]
         resultPath = "$projectPath/${repository['name']}"
     }
 
@@ -87,8 +98,9 @@ templateEngine {
 
 evaluate {
     doFirst {
-        delete("$projectPath")
+        delete "$projectPath"
     }
+    // 输出 learn-java 整体项目结构，帮助文档编写
     doLast {
         exec {
             workingDir("$rootDir")
@@ -105,6 +117,7 @@ task "init-${projectName}"(group: "peacetrue-tplngn") {
         exec {
             workingDir("$projectPath/$projectName-frontend")
             commandLine("pnpm", "install")
+            ignoreExitValue(true)
         }
     }
 }

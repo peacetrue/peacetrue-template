@@ -3,29 +3,21 @@ package com.github.peacetrue.template.reactadmin;
 import com.github.peacetrue.io.ConditionalResourcesLoader;
 import com.github.peacetrue.io.Resource;
 import com.github.peacetrue.io.ResourcesUtils;
-import com.github.peacetrue.template.DirectoryTemplateEngine;
-import com.github.peacetrue.template.Repository;
-import com.github.peacetrue.template.TemplateUtils;
-import com.github.peacetrue.template.VelocityTemplateEngine;
+import com.github.peacetrue.template.*;
 import com.github.peacetrue.test.SourcePathUtils;
-import com.github.peacetrue.util.ArrayUtils;
 import com.github.peacetrue.util.FileUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
 import org.junit.jupiter.api.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static com.github.peacetrue.test.SourcePathUtils.getCustomAbsolutePath;
 
@@ -36,7 +28,11 @@ import static com.github.peacetrue.test.SourcePathUtils.getCustomAbsolutePath;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ReactAdminTest {
 
-    private List<String> templateNames = Collections.emptyList();
+    private static List<String> templateNames = Collections.emptyList();
+
+    static {
+        Variables.LEARN_JAVA_MAP.put("dependencies", Collections.singletonList(new Dependency("ra-dictionary", "^0.0.0")));
+    }
 
     @SneakyThrows
     @Order(1)
@@ -44,9 +40,10 @@ class ReactAdminTest {
     void template() {
         String targetPath = SourcePathUtils.getCustomAbsolutePath(false, true, "/reactadmin");
         List<Resource> resources = ResourcesUtils.getDirectoryResources(Paths.get(targetPath));
-        Assertions.assertEquals(32, resources.size());
+        Assertions.assertEquals(36, resources.size());
         templateNames = TemplateUtils.findTemplateNames(resources);
-        Assertions.assertEquals(3, templateNames.size());
+        Assertions.assertEquals(5, templateNames.size());
+        log.info("templateNames: {}", templateNames);
     }
 
     @Order(10)
@@ -57,9 +54,9 @@ class ReactAdminTest {
         Path targetPathObject = Paths.get(targetPath);
         if (Files.exists(targetPathObject)) FileUtils.deleteRecursively(targetPathObject);
         DirectoryTemplateEngine templateEngine = VelocityTemplateEngine.buildVelocityDirectoryTemplateEngine();
-        templateEngine.evaluate("classpath:reactadmin", TemplateUtils.getOptions(), Repository.LEARN_JAVA_ROOT, targetPath);
+        templateEngine.evaluate("classpath:reactadmin", TemplateUtils.getOptions(), Variables.LEARN_JAVA_MAP, targetPath);
         List<Resource> resources = ConditionalResourcesLoader.DEFAULT.getResources("file:" + targetPath);
-        Assertions.assertEquals(32, resources.size());
+        Assertions.assertEquals(36, resources.size());
         for (Resource resource : resources) {
             if (resource.isDirectory() || templateNames.stream().noneMatch(item -> resource.getPath().endsWith(item)))
                 continue;
@@ -80,7 +77,7 @@ class ReactAdminTest {
     void storeRepositoryVariables() {
         String resourcePath = getCustomAbsolutePath(false, true, "/reactadmin-variables.properties");
         Path resourcePathObject = Paths.get(resourcePath);
-        TemplateUtils.write(resourcePathObject, Repository.LEARN_JAVA_ROOT);
+        TemplateUtils.write(resourcePathObject, Variables.LEARN_JAVA_MAP);
         Assertions.assertTrue(Files.exists(resourcePathObject));
     }
 

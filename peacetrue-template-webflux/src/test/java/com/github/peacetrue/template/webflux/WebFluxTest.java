@@ -19,7 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-import static com.github.peacetrue.template.Repository.LEARN_JAVA_ROOT;
+import static com.github.peacetrue.template.Variables.LEARN_JAVA_MAP;
 import static com.github.peacetrue.template.TemplateUtils.getOptions;
 import static com.github.peacetrue.test.SourcePathUtils.getCustomAbsolutePath;
 
@@ -30,7 +30,7 @@ import static com.github.peacetrue.test.SourcePathUtils.getCustomAbsolutePath;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class WebFluxTest {
 
-    private List<String> templateNames = Collections.emptyList();
+    private static List<String> templateNames = Collections.emptyList();
 
     @SneakyThrows
     @Order(1)
@@ -52,7 +52,7 @@ class WebFluxTest {
         if (Files.exists(targetPathObject)) FileUtils.deleteRecursively(targetPathObject);
 
         DirectoryTemplateEngine templateEngine = VelocityTemplateEngine.buildVelocityDirectoryTemplateEngine();
-        templateEngine.evaluate("classpath:webflux", getOptions(), LEARN_JAVA_ROOT, targetPath);
+        templateEngine.evaluate("classpath:webflux", getOptions(), LEARN_JAVA_MAP, targetPath);
         List<Resource> resources = ConditionalResourcesLoader.DEFAULT.getResources("file:" + targetPath);
         Assertions.assertEquals(22, resources.size());
 
@@ -76,7 +76,7 @@ class WebFluxTest {
     void storeRepositoryVariables() {
         String resourcePath = getCustomAbsolutePath(false, true, "/webflux-variables.properties");
         Path resourcePathObject = Paths.get(resourcePath);
-        TemplateUtils.write(resourcePathObject, LEARN_JAVA_ROOT);
+        TemplateUtils.write(resourcePathObject, LEARN_JAVA_MAP);
         Assertions.assertTrue(Files.exists(resourcePathObject));
     }
 

@@ -21,6 +21,8 @@
     "react-scripts": "5.0.1",
     "typescript": "^4.8.4",
     "web-vitals": "^2.1.4"
+ #foreach($dependency in $dependencies)	,"$dependency.name": "$dependency.version"
+#end
   },
   "scripts": {
     "start": "react-scripts start",

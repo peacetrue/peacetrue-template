@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static com.github.peacetrue.template.Repository.LEARN_JAVA_ROOT;
+import static com.github.peacetrue.template.Variables.LEARN_JAVA_MAP;
 import static com.github.peacetrue.template.TemplateUtils.getOptions;
 import static com.github.peacetrue.test.SourcePathUtils.getCustomAbsolutePath;
 
@@ -31,7 +31,7 @@ import static com.github.peacetrue.test.SourcePathUtils.getCustomAbsolutePath;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class GradleTest {
 
-    private List<String> templateNames = Collections.emptyList();
+    private static List<String> templateNames = Collections.emptyList();
 
     @SneakyThrows
     @Order(10)
@@ -54,7 +54,7 @@ class GradleTest {
         if (Files.exists(targetPathObject)) FileUtils.deleteRecursively(targetPathObject);
 
         DirectoryTemplateEngine templateEngine = VelocityTemplateEngine.buildVelocityDirectoryTemplateEngine();
-        templateEngine.evaluate("classpath:gradle", getOptions(), LEARN_JAVA_ROOT, targetPath);
+        templateEngine.evaluate("classpath:gradle", getOptions(), LEARN_JAVA_MAP, targetPath);
 
         List<Resource> resources = ConditionalResourcesLoader.DEFAULT.getResources("file:" + targetPath);
         Assertions.assertEquals(26, resources.size());
@@ -78,7 +78,7 @@ class GradleTest {
     void storeRepositoryVariables() {
         String resourcePath = getCustomAbsolutePath(false, true, "/gradle-variables.properties");
         Path resourcePathObject = Paths.get(resourcePath);
-        TemplateUtils.write(resourcePathObject, LEARN_JAVA_ROOT);
+        TemplateUtils.write(resourcePathObject, LEARN_JAVA_MAP);
         Assertions.assertTrue(Files.exists(resourcePathObject));
     }
 

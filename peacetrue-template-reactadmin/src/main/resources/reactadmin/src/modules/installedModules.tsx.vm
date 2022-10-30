@@ -1,0 +1,8 @@
+import {InstalledModule, Module} from "./Module";
+
+const modules: Module[] = [
+ #foreach($dependency in $dependencies)...(require("$dependency.name") as InstalledModule).default,
+#end
+  //...(require("ra-dictionary") as InstalledModule).default,
+];
+export default modules;

@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Admin} from "react-admin";
 import {dataProvider} from "./DataProviderInstance";
 import {i18nProvider} from "./i18n";
-import {Resources} from "./modules";
+import {resources} from "./modules";
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
       dataProvider={dataProvider}
       i18nProvider={i18nProvider}
     >
-      {Resources}
+      {resources}
     </Admin>
   );
 }

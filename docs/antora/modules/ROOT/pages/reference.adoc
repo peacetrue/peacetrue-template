@@ -198,11 +198,11 @@ NOTE: 使用模板创建应用后，需要安装依赖。
 
 |repository
 |资源库属性
-|<<Repository>>
+|<<ReactAdminRepository>>
 |
 |===
 
-[[Repository]]
+[[ReactAdminRepository]]
 .资源库
 [%autowidth.stretch]
 |===
@@ -217,7 +217,46 @@ NOTE: 使用模板创建应用后，需要安装依赖。
 |标题
 |字符串
 |index.html 中 title，与 <<AntoraRepository>> 中 title 相同
+
+|dependencies
+|依赖数组
+|<<ReactAdminDependency>>[]
+|用于在 package.json 中添加依赖配置
 |===
+
+[[ReactAdminDependency]]
+.依赖
+[%autowidth.stretch]
+|===
+|名称 |描述 |类型 |备注
+
+|name
+|名称
+|字符串
+|例如：ra-dictionary
+
+|version
+|版本
+|字符串
+|例如：1.0.0
+|===
+
+=== 使用场景
+
+==== 独立运行
+
+peacetrue-application-reactadmin 独立运行。
+
+==== 模块调试
+
+peacetrue-dictionary 借助 peacetrue-application-reactadmin 调试运行。
+
+==== 安装依赖
+
+
+==== 本地模块
+
+==== 模块调试
 
 == 完整示例
 

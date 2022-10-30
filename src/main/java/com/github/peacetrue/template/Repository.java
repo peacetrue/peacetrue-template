@@ -4,11 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
 /**
  * 资源库。
  *
@@ -25,7 +20,6 @@ public class Repository {
             "https://peacetrue.github.io",
             "com.github.peacetrue.learn"
     );
-    public static final Map<String, Object> LEARN_JAVA_ROOT = Collections.singletonMap("repository", LEARN_JAVA);
 
     /** 名称 */
     private String name;

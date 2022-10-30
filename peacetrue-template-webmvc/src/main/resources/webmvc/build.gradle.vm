@@ -42,6 +42,8 @@ dependencies {
 }
 
 // 加载自定义内容
-fileTree("${projectDir}/extend").forEach({
-    apply "from": "extend/$it.name"
-})
+fileTree("${projectDir}/extend")
+        .filter(file -> file.name.endsWith(".gradle"))
+        .forEach({
+            apply "from": "extend/$it.name"
+        })

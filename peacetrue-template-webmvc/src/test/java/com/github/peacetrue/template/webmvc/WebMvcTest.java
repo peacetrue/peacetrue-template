@@ -4,8 +4,8 @@ import com.github.peacetrue.io.ConditionalResourcesLoader;
 import com.github.peacetrue.io.Resource;
 import com.github.peacetrue.io.ResourcesUtils;
 import com.github.peacetrue.template.DirectoryTemplateEngine;
-import com.github.peacetrue.template.Repository;
 import com.github.peacetrue.template.TemplateUtils;
+import com.github.peacetrue.template.Variables;
 import com.github.peacetrue.template.VelocityTemplateEngine;
 import com.github.peacetrue.test.SourcePathUtils;
 import com.github.peacetrue.util.FileUtils;
@@ -32,7 +32,7 @@ import static com.github.peacetrue.test.SourcePathUtils.getCustomAbsolutePath;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class WebMvcTest {
 
-    private List<String> templateNames = Collections.emptyList();
+    private static List<String> templateNames = Collections.emptyList();
 
     @SneakyThrows
     @Order(1)
@@ -40,9 +40,9 @@ class WebMvcTest {
     void template() {
         String targetPath = SourcePathUtils.getCustomAbsolutePath(false, true, "/webmvc");
         List<Resource> resources = ResourcesUtils.getDirectoryResources(Paths.get(targetPath));
-        Assertions.assertEquals(18, resources.size());
+        Assertions.assertEquals(21, resources.size());
         templateNames = TemplateUtils.findTemplateNames(resources);
-        Assertions.assertEquals(6, templateNames.size());
+        Assertions.assertEquals(7, templateNames.size());
     }
 
     @Order(10)
@@ -53,9 +53,9 @@ class WebMvcTest {
         Path targetPathObject = Paths.get(targetPath);
         if (Files.exists(targetPathObject)) FileUtils.deleteRecursively(targetPathObject);
         DirectoryTemplateEngine templateEngine = VelocityTemplateEngine.buildVelocityDirectoryTemplateEngine();
-        templateEngine.evaluate("classpath:webmvc", getOptions(), Repository.LEARN_JAVA_ROOT, targetPath);
+        templateEngine.evaluate("classpath:webmvc", getOptions(), Variables.LEARN_JAVA_MAP, targetPath);
         List<Resource> resources = ConditionalResourcesLoader.DEFAULT.getResources("file:" + targetPath);
-        Assertions.assertEquals(24, resources.size());
+        Assertions.assertEquals(26, resources.size());
         for (Resource resource : resources) {
             if (resource.isDirectory() || templateNames.stream().noneMatch(item -> resource.getPath().endsWith(item)))
                 continue;
@@ -76,7 +76,7 @@ class WebMvcTest {
     void storeRepositoryVariables() {
         String resourcePath = getCustomAbsolutePath(false, true, "/webmvc-variables.properties");
         Path resourcePathObject = Paths.get(resourcePath);
-        TemplateUtils.write(resourcePathObject, Repository.LEARN_JAVA_ROOT);
+        TemplateUtils.write(resourcePathObject, Variables.LEARN_JAVA_MAP);
         Assertions.assertTrue(Files.exists(resourcePathObject));
     }
 

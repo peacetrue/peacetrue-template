@@ -1,0 +1,5 @@
+dependencies {
+  #foreach($dependency in ${dependencies})
+  implementation "$dependency"
+  #end
+}

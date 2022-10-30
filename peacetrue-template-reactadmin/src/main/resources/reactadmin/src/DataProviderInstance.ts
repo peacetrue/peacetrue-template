@@ -1,6 +1,6 @@
+import qs from "qs";
 import jsonServerProvider from 'ra-data-json-server';
 import buildSpringDataProvider from "./SpringDataProvider";
-import qs from "qs";
 
 function stringify(params: Record<string, any>) {
   return qs.stringify(params, {
