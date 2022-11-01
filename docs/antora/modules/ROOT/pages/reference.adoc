@@ -26,6 +26,7 @@ learn-java 示例数据如下：
 include::example$learn-java.properties[]
 ----
 
+[[AntoraTemplate]]
 == Antora 目录模板
 
 https://antora.org/[Antora^] 是一个多资源库文档站点生成器，适用于喜欢使用 AsciiDoc 编写的技术作者。
@@ -52,7 +53,7 @@ include::example$peacetrue-template-antora/source-file-structure.txt[]
 include::example$peacetrue-template-antora/target-file-structure.txt[]
 ----
 
-最终文档预览效果如下：
+最终文档展示效果如下：
 
 image::1666883280533.jpg[]
 
@@ -167,7 +168,22 @@ NOTE: WebMVC 没有 setting.gradle，使用时需要配合 <<_gradle_目录模�
 
 === 变量说明
 
-同 <<GradleRoot, Gradle 变量说明>>。
+.根对象
+[%autowidth.stretch]
+|===
+|名称 |描述 |类型 |备注
+
+|repository
+|资源库属性
+|<<AntoraRepository>>
+|
+
+|dependencies
+|依赖数组
+|字符串数组
+|用于在 build.gradle 中添加依赖配置
+|===
+// 例如：com.github.peacetrue:peacetrue-common
 
 == React Admin 目录模板
 
@@ -198,25 +214,8 @@ NOTE: 使用模板创建应用后，需要安装依赖。
 
 |repository
 |资源库属性
-|<<ReactAdminRepository>>
+|<<AntoraRepository>>
 |
-|===
-
-[[ReactAdminRepository]]
-.资源库
-[%autowidth.stretch]
-|===
-|名称 |描述 |类型 |备注
-
-|name
-|名称
-|字符串
-|package.json 中 name，与 <<AntoraRepository>> 中 name 相同
-
-|title
-|标题
-|字符串
-|index.html 中 title，与 <<AntoraRepository>> 中 title 相同
 
 |dependencies
 |依赖数组
@@ -240,23 +239,6 @@ NOTE: 使用模板创建应用后，需要安装依赖。
 |字符串
 |例如：1.0.0
 |===
-
-=== 使用场景
-
-==== 独立运行
-
-peacetrue-application-reactadmin 独立运行。
-
-==== 模块调试
-
-peacetrue-dictionary 借助 peacetrue-application-reactadmin 调试运行。
-
-==== 安装依赖
-
-
-==== 本地模块
-
-==== 模块调试
 
 == 完整示例
 

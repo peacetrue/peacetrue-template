@@ -1,18 +1,19 @@
 webflux
-|-- build.gradle.vm
-|-- extend.gradle
-|-- gradle.properties.vm
-`-- src
-    |-- main
-    |   |-- java
-    |   |   `-- ${clazz.path(${repository.group})}
-    |   |       |-- $lh.uc(${repository.name})Application.java.vm
-    |   |       `-- $lh.uc(${repository.name})Configuration.java.vm
-    |   `-- resources
-    |       `-- application.yml.vm
-    `-- test
-        `-- java
-            `-- ${clazz.path(${repository.group})}
-                `-- $lh.uc(${repository.name})ApplicationTest.java.vm
+├── build.gradle.vm
+├── extend.gradle
+├── gradle.properties.vm
+└── src
+    ├── main
+    │   ├── java
+    │   │   ├── ${clazz.path(${repository.group})}
+    │   │   │   ├── $lh.uc(${repository.name})Application.java.vm
+    │   │   │   └── $lh.uc(${repository.name})Configuration.java.vm
+    │   │   └── .DS_Store
+    │   └── resources
+    │       └── application.yml.vm
+    └── test
+        └── java
+            └── ${clazz.path(${repository.group})}
+                └── $lh.uc(${repository.name})ApplicationTest.java.vm
 
-8 directories, 7 files
+8 directories, 8 files

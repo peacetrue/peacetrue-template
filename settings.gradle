@@ -1,3 +1,6 @@
+import org.apache.tools.ant.DirectoryScanner
+
+
 pluginManagement {
     resolutionStrategy {
         eachPlugin {
@@ -15,11 +18,14 @@ pluginManagement {
     }
 }
 
+// 模板中需要 .gitignore 文件
+DirectoryScanner.removeDefaultExclude("**/.gitignore")
+
 rootProject.name = "peacetrue-template"
 include("peacetrue-template-antora")
 include("peacetrue-template-gradle")
 include("peacetrue-template-webmvc")
-include("peacetrue-template-webflux")
+//include("peacetrue-template-webflux")
 include("peacetrue-template-reactadmin")
 //includeFlat("peacetrue-application-webmvc")
 //includeFlat("peacetrue-application-reactadmin")

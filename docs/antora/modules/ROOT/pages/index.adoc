@@ -1,29 +1,32 @@
 = 概述
 :app-group: com.github.peacetrue.template
 :app-name: peacetrue-template
-:app-version: 1.0.0
 :website: https://peacetrue.github.io
-:foresight-repo-id:
+:foresight-repo-id: 1f16fe7d-581e-4b91-a2e2-9dfac8983b87
 :imagesdir: docs/antora/modules/ROOT/assets/images
 
 image:https://img.shields.io/github/workflow/status/peacetrue/{app-name}/build/master["GitHub Workflow Status",link="https://github.com/peacetrue/{app-name}/actions"]
 image:https://snyk.io/test/github/peacetrue/{app-name}/badge.svg["Snyk",link="https://app.snyk.io/org/peacetrue"]
 image:https://api-public.service.runforesight.com/api/v1/badge/success?repoId={foresight-repo-id}["Foresight",link="https://foresight.thundra.io/repositories/github/peacetrue/{app-name}/test-runs"]
-image:https://img.shields.io/nexus/r/{app-group}/{app-name}-antora?label={app-name}&server=https%3A%2F%2Foss.sonatype.org%2F["{app-name}",link="https://oss.sonatype.org/index.html#nexus-search;gav~~{app-name}-antora~~~"]
-image:https://img.shields.io/nexus/s/{app-group}/{app-name}-antora?label={app-name}&server=https%3A%2F%2Foss.sonatype.org%2F["{app-name}",link="https://oss.sonatype.org/index.html#nexus-search;gav~~{app-name}-antora~~~"]
+image:https://img.shields.io/nexus/r/{app-group}/{app-name}-antora?label={app-name}&server=https%3A%2F%2Foss.sonatype.org%2F["{app-name}",link="https://search.maven.org/search?q={app-name}"]
 
 //@formatter:off
 == 简介（What）
 
 {website}/{app-name}/[{app-name}] 是一个目录模板资源库，用于存储自定义的目录模板。
-当前包含 Antora 目录模板、Gradle 目录模板、Spring WebMVC 目录模板、React Admin 目录模板。
+当前包含如下目录模板：
+
+. Antora 目录模板
+. Gradle 目录模板
+. Spring WebMVC 目录模板
+. React Admin 目录模板
 
 == 背景（Why）
 
 我们可以使用命令行或者图形化界面手动创建一个项目。
 最开始会比较兴奋，随着类似的项目创建的越来越多，慢慢对重复操作失去热情，并尝试找到一些方式快速执行重复操作。
 其中一种方式是使用命令行脚本记录下这些重复操作，后续运行命令行脚本即可快速生成新项目；
-还有一种方式是使用目录模板，配合 xref:peacetrue-tplngn::manual.adoc#evaluate[目录模板引擎] 渲染之后，也能快速生成新项目。
+还有一种方式是使用目录模板，配合 xref:peacetrue-tplngn::start.adoc[目录模板引擎] 渲染之后，也能快速生成新项目。
 命令行脚本记录的是过程，有助于详细了解项目的创建逻辑；
 目录模板记录的是结果，便于直观感受最终的内容。
 
@@ -35,15 +38,14 @@ TIP: 命令行脚本可以记录；基于图形化界面的系统是否可以通
 
 [source%nowrap,gradle,subs="specialchars,attributes"]
 ----
-implementation "{app-group}:{app-name}-antora:{app-version}"
-implementation "{app-group}:{app-name}-gradle:{app-version}"
-implementation "{app-group}:{app-name}-webmvc:{app-version}"
-implementation "{app-group}:{app-name}-webflux:{app-version}"
-implementation "{app-group}:{app-name}-reactadmin:{app-version}"
+implementation "{app-group}:{app-name}-antora:\{latest-version}"
+implementation "{app-group}:{app-name}-gradle:\{latest-version}"
+implementation "{app-group}:{app-name}-webmvc:\{latest-version}"
+implementation "{app-group}:{app-name}-reactadmin:\{latest-version}"
 ----
 
 //TODO 链接坐标转换器
-如需转换为其他格式的 GAV 坐标，可使用 http://bee.peacetrue.cn/function/conversion[坐标转换器^]。
+如需转换为其他格式的 GAV 坐标，可使用 http://bee.peacetrue.cn/function/conversion/gav[坐标转换器^]。
 
 == 维护者（Who）
 
@@ -51,7 +53,7 @@ implementation "{app-group}:{app-name}-reactadmin:{app-version}"
 
 == 活动（When）
 
-初始提交于 2022-09-26，最近提交于 2022-10-18。
+初始提交于 2022-09-26，最近提交于 2022-11-01。
 
 == 许可证（License）
 

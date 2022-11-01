@@ -1,6 +1,8 @@
 webmvc
 ├── build.gradle.vm
 ├── extend
+│   ├── .gitkeep
+│   └── dependencies.gradle.vm
 ├── gradle.properties.vm
 └── src
     ├── main
@@ -18,4 +20,4 @@ webmvc
         └── resources
             └── application-unittest.yml
 
-10 directories, 8 files
+10 directories, 10 files

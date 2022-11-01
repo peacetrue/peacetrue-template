@@ -1,27 +1,27 @@
 antora
-|-- .gitignore
-|-- LICENSE
-|-- README.adoc
-`-- docs
-    |-- README.graffle
-    `-- antora
-        |-- antora.yml.vm
-        |-- modules
-        |   `-- ROOT
-        |       |-- assets
-        |       |   |-- attachments
-        |       |   |   `-- .gitkeep
-        |       |   `-- images
-        |       |       `-- .gitkeep
-        |       |-- examples
-        |       |   `-- .gitkeep
-        |       |-- nav.adoc
-        |       `-- pages
-        |           |-- index.adoc.vm
-        |           |-- manual.adoc
-        |           |-- reference.adoc
-        |           |-- start.adoc
-        |           `-- version.adoc
-        `-- playbook.yml.vm
+├── .gitignore
+├── LICENSE
+├── README.adoc
+└── docs
+    ├── README.graffle
+    └── antora
+        ├── antora.yml.vm
+        ├── modules
+        │   └── ROOT
+        │       ├── assets
+        │       │   ├── attachments
+        │       │   │   └── .gitkeep
+        │       │   └── images
+        │       │       └── .gitkeep
+        │       ├── examples
+        │       │   └── .gitkeep
+        │       ├── nav.adoc
+        │       └── pages
+        │           ├── index.adoc.vm
+        │           ├── manual.adoc
+        │           ├── reference.adoc
+        │           ├── start.adoc
+        │           └── version.adoc
+        └── playbook.yml.vm
 
 9 directories, 15 files

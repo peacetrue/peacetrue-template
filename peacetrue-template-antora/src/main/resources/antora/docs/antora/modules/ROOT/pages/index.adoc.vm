@@ -1,7 +1,7 @@
 = 概述
+:website: ${repository.website}
 :app-group: ${repository.group}
 :app-name: ${repository.name}
-:website: ${repository.website}
 :foresight-repo-id:
 :imagesdir: docs/antora/modules/ROOT/assets/images
 
@@ -9,7 +9,7 @@ image:https://img.shields.io/github/workflow/status/peacetrue/{app-name}/build/m
 image:https://snyk.io/test/github/peacetrue/{app-name}/badge.svg["Snyk",link="https://app.snyk.io/org/peacetrue"]
 image:https://api-public.service.runforesight.com/api/v1/badge/success?repoId={foresight-repo-id}["Foresight",link="https://foresight.thundra.io/repositories/github/peacetrue/{app-name}/test-runs"]
 image:https://img.shields.io/codecov/c/github/peacetrue/{app-name}/master["Codecov",link="https://app.codecov.io/gh/peacetrue/{app-name}"]
-image:https://img.shields.io/nexus/r/{app-group}/{app-name}?label={app-name}&server=https%3A%2F%2Foss.sonatype.org%2F["{app-name}",link="https://oss.sonatype.org/index.html#nexus-search;gav~~{app-name}~~~"]
+image:https://img.shields.io/nexus/r/{app-group}/{app-name}?label={app-name}&server=https%3A%2F%2Foss.sonatype.org%2F["{app-name}",link="https://search.maven.org/search?q={app-name}"]
 
 //@formatter:off
 

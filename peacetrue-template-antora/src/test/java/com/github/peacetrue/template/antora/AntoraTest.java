@@ -1,12 +1,12 @@
 package com.github.peacetrue.template.antora;
 
-import com.github.peacetrue.io.ConditionalResourcesLoader;
+import com.github.peacetrue.io.ConditionalResourceLoader;
 import com.github.peacetrue.io.Resource;
-import com.github.peacetrue.io.ResourcesUtils;
-import com.github.peacetrue.template.DirectoryTemplateEngine;
+import com.github.peacetrue.io.ResourceUtils;
+import com.github.peacetrue.tplngn.DirectoryTemplateEngine;
 import com.github.peacetrue.template.TemplateUtils;
 import com.github.peacetrue.template.Variables;
-import com.github.peacetrue.template.VelocityTemplateEngine;
+import com.github.peacetrue.tplngn.VelocityTemplateEngine;
 import com.github.peacetrue.test.SourcePathUtils;
 import com.github.peacetrue.util.FileUtils;
 import lombok.SneakyThrows;
@@ -40,7 +40,7 @@ class AntoraTest {
     @Order(10)
     void template() {
         String targetPath = SourcePathUtils.getCustomAbsolutePath(false, true, "/antora");
-        List<Resource> resources = ResourcesUtils.getDirectoryResources(Paths.get(targetPath));
+        List<Resource> resources = ResourceUtils.getDirectoryResources(Paths.get(targetPath));
         Assertions.assertEquals(25, resources.size());
 
         templateNames = TemplateUtils.findTemplateNames(resources);
@@ -56,8 +56,8 @@ class AntoraTest {
         if (Files.exists(targetPathObject)) FileUtils.deleteRecursively(targetPathObject);
 
         DirectoryTemplateEngine templateEngine = VelocityTemplateEngine.buildVelocityDirectoryTemplateEngine();
-        templateEngine.evaluate("classpath:antora", getOptions(), Variables.LEARN_JAVA_MAP, targetPath);
-        List<Resource> resources = ConditionalResourcesLoader.DEFAULT.getResources("file:" + targetPath);
+        templateEngine.evaluate("classpath:antora/", getOptions(), Variables.LEARN_JAVA_MAP, targetPath);
+        List<Resource> resources = ConditionalResourceLoader.DEFAULT.getResources("file:" + targetPath);
         Assertions.assertEquals(22, resources.size());
 
         for (Resource resource : resources) {

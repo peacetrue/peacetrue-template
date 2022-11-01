@@ -1,10 +1,12 @@
 package com.github.peacetrue.template.reactadmin;
 
-import com.github.peacetrue.io.ConditionalResourcesLoader;
+import com.github.peacetrue.io.ConditionalResourceLoader;
 import com.github.peacetrue.io.Resource;
-import com.github.peacetrue.io.ResourcesUtils;
+import com.github.peacetrue.io.ResourceUtils;
 import com.github.peacetrue.template.*;
 import com.github.peacetrue.test.SourcePathUtils;
+import com.github.peacetrue.tplngn.DirectoryTemplateEngine;
+import com.github.peacetrue.tplngn.VelocityTemplateEngine;
 import com.github.peacetrue.util.FileUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +41,7 @@ class ReactAdminTest {
     @Test
     void template() {
         String targetPath = SourcePathUtils.getCustomAbsolutePath(false, true, "/reactadmin");
-        List<Resource> resources = ResourcesUtils.getDirectoryResources(Paths.get(targetPath));
+        List<Resource> resources = ResourceUtils.getDirectoryResources(Paths.get(targetPath));
         Assertions.assertEquals(36, resources.size());
         templateNames = TemplateUtils.findTemplateNames(resources);
         Assertions.assertEquals(5, templateNames.size());
@@ -54,8 +56,8 @@ class ReactAdminTest {
         Path targetPathObject = Paths.get(targetPath);
         if (Files.exists(targetPathObject)) FileUtils.deleteRecursively(targetPathObject);
         DirectoryTemplateEngine templateEngine = VelocityTemplateEngine.buildVelocityDirectoryTemplateEngine();
-        templateEngine.evaluate("classpath:reactadmin", TemplateUtils.getOptions(), Variables.LEARN_JAVA_MAP, targetPath);
-        List<Resource> resources = ConditionalResourcesLoader.DEFAULT.getResources("file:" + targetPath);
+        templateEngine.evaluate("classpath:reactadmin/", TemplateUtils.getOptions(), Variables.LEARN_JAVA_MAP, targetPath);
+        List<Resource> resources = ConditionalResourceLoader.DEFAULT.getResources("file:" + targetPath);
         Assertions.assertEquals(36, resources.size());
         for (Resource resource : resources) {
             if (resource.isDirectory() || templateNames.stream().noneMatch(item -> resource.getPath().endsWith(item)))

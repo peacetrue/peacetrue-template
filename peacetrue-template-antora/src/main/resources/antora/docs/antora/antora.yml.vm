@@ -5,6 +5,7 @@ asciidoc:
   attributes:
     numbered: '@'
     website: ${repository.website}
+    app-group: ${repository.group}
     app-name: ${repository.name}
 start_page: ROOT:index.adoc
 nav:
