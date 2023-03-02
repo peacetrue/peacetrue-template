@@ -10,3 +10,8 @@
 . Gradle 目录模板
 . Spring WebMVC 目录模板
 . React Admin 目录模板
+
+== 1.0.1
+
+. 修改 index.adoc 中构建徽章
+. 在 setting.gradle 中添加 gradlePluginPortal
