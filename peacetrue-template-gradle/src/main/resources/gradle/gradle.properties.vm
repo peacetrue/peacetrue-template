@@ -1,4 +1,4 @@
 tailSnapshot=-SNAPSHOT
-peaceGradleVersion=1.1.1
+peaceGradleVersion=1.1.2
 ${lh.lc(${repository.name})}Version=1.0.0
 
