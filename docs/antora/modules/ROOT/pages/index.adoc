@@ -1,14 +1,15 @@
 = 概述
 :app-group: com.github.peacetrue.template
 :app-name: peacetrue-template
+:app-name-antora: {app-name}-antora
 :website: https://peacetrue.github.io
 :foresight-repo-id: 1f16fe7d-581e-4b91-a2e2-9dfac8983b87
 :imagesdir: docs/antora/modules/ROOT/assets/images
 
-image:https://img.shields.io/github/workflow/status/peacetrue/{app-name}/build/master["GitHub Workflow Status",link="https://github.com/peacetrue/{app-name}/actions"]
+image:https://img.shields.io/github/actions/workflow/status/peacetrue/{app-name}/main.yml?branch=master["GitHub Workflow Status",link="https://github.com/peacetrue/{app-name}/actions"]
 image:https://snyk.io/test/github/peacetrue/{app-name}/badge.svg["Snyk",link="https://app.snyk.io/org/peacetrue"]
 image:https://api-public.service.runforesight.com/api/v1/badge/success?repoId={foresight-repo-id}["Foresight",link="https://foresight.thundra.io/repositories/github/peacetrue/{app-name}/test-runs"]
-image:https://img.shields.io/nexus/r/{app-group}/{app-name}-antora?label={app-name}&server=https%3A%2F%2Foss.sonatype.org%2F["{app-name}",link="https://search.maven.org/search?q={app-name}"]
+image:https://img.shields.io/nexus/r/{app-group}/{app-name-antora}?label={app-name}&server=https%3A%2F%2Foss.sonatype.org%2F["{app-name}",link="https://search.maven.org/search?q={app-name}"]
 
 //@formatter:off
 == 简介（What）
