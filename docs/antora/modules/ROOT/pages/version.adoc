@@ -15,3 +15,4 @@
 
 . 修改 index.adoc 中构建徽章
 . 在 setting.gradle 中添加 gradlePluginPortal
+. docdatetime 改为 docdate

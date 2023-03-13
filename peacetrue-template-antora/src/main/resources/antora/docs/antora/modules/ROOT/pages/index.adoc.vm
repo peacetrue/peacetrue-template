@@ -27,7 +27,7 @@ image:https://img.shields.io/nexus/r/{app-group}/{app-name}?label={app-name}&ser
 
 == 活动（When）
 
-初始提交于 {docdatetime}，最近提交于 {docdatetime}。
+初始提交于 {docdate}，最近提交于 {docdate}。
 
 == 许可证（License）
 
