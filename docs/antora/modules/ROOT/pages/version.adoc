@@ -16,3 +16,8 @@
 . 修改 index.adoc 中构建徽章
 . 在 setting.gradle 中添加 gradlePluginPortal
 . docdatetime 改为 docdate
+
+== 1.0.2
+
+index.adoc 中 foresight 更新为 test space。
+
