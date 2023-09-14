@@ -16,4 +16,4 @@ webflux
             └── ${clazz.path(${repository.group})}
                 └── $lh.uc(${repository.name})ApplicationTest.java.vm
 
-8 directories, 8 files
+9 directories, 8 files

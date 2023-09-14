@@ -1,6 +1,6 @@
 = 概述
 
-include::partial$shields.adoc[]
+include::partial${esc.d}shields.adoc[]
 //@formatter:off
 
 == 简介（What）

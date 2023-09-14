@@ -13,12 +13,14 @@ learn-java
         │       │   └── images
         │       ├── examples
         │       ├── nav.adoc
-        │       └── pages
-        │           ├── index.adoc
-        │           ├── manual.adoc
-        │           ├── reference.adoc
-        │           ├── start.adoc
-        │           └── version.adoc
+        │       ├── pages
+        │       │   ├── index.adoc
+        │       │   ├── manual.adoc
+        │       │   ├── reference.adoc
+        │       │   ├── start.adoc
+        │       │   └── version.adoc
+        │       └── partials
+        │           └── shields.adoc
         └── playbook.yml
 
-9 directories, 12 files
+11 directories, 13 files

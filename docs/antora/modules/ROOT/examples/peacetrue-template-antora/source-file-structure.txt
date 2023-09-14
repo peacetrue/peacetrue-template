@@ -1,7 +1,7 @@
 antora
 ├── .gitignore
 ├── LICENSE
-├── README.adoc
+├── README.adoc.vm
 └── docs
     ├── README.graffle
     └── antora
@@ -16,12 +16,14 @@ antora
         │       ├── examples
         │       │   └── .gitkeep
         │       ├── nav.adoc
-        │       └── pages
-        │           ├── index.adoc.vm
-        │           ├── manual.adoc
-        │           ├── reference.adoc
-        │           ├── start.adoc
-        │           └── version.adoc
+        │       ├── pages
+        │       │   ├── index.adoc.vm
+        │       │   ├── manual.adoc
+        │       │   ├── reference.adoc
+        │       │   ├── start.adoc
+        │       │   └── version.adoc
+        │       └── partials
+        │           └── shields.adoc
         └── playbook.yml.vm
 
-9 directories, 15 files
+11 directories, 16 files
