@@ -1,8 +1,7 @@
 package com.github.peacetrue.template;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  * 资源库。
@@ -10,16 +9,15 @@ import lombok.NoArgsConstructor;
  * @author peace
  **/
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Accessors(chain = true)
 public class Repository {
 
-    public static final Repository LEARN_JAVA = new Repository(
-            "learn-java",
-            "学习 Java",
-            "https://peacetrue.github.io",
-            "com.github.peacetrue.learn"
-    );
+    public static final Repository LEARN_JAVA = new Repository()
+            .setName("learn-java")
+            .setTitle("学习 Java")
+            .setWebsite("https://peacetrue.github.io")
+            .setGroup("com.github.peacetrue.learn")
+            .setDomainName("Java");
 
     /** 名称 */
     private String name;
@@ -29,5 +27,8 @@ public class Repository {
     private String website;
     /** 组名 */
     private String group;
+    /** 领域名称 */
+    private String domainName;
+
 
 }

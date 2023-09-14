@@ -10,7 +10,6 @@ import com.github.peacetrue.test.SourcePathUtils;
 import com.github.peacetrue.util.FileUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.*;
 
 import java.nio.file.Files;
@@ -18,10 +17,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
-import static com.github.peacetrue.template.Variables.LEARN_JAVA_MAP;
+import static com.github.peacetrue.template.Variables.LEARN_JAVA_FULL_MAP;
 import static com.github.peacetrue.template.TemplateUtils.getOptions;
+import static com.github.peacetrue.template.Variables.LEARN_JAVA_MAP;
 import static com.github.peacetrue.test.SourcePathUtils.getCustomAbsolutePath;
 
 /**
@@ -54,7 +53,7 @@ class GradleTest {
         if (Files.exists(targetPathObject)) FileUtils.deleteRecursively(targetPathObject);
 
         DirectoryTemplateEngine templateEngine = VelocityTemplateEngine.buildVelocityDirectoryTemplateEngine();
-        templateEngine.evaluate("classpath:gradle/", getOptions(), LEARN_JAVA_MAP, targetPath);
+        templateEngine.evaluate("classpath:gradle/", getOptions(), LEARN_JAVA_FULL_MAP, targetPath);
 
         List<Resource> resources = ConditionalResourceLoader.DEFAULT.getResources("file:" + targetPath);
         Assertions.assertEquals(27, resources.size());
