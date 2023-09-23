@@ -17,6 +17,7 @@ antora
         │       │   └── .gitkeep
         │       ├── nav.adoc
         │       ├── pages
+        │       │   ├── faq.adoc
         │       │   ├── index.adoc.vm
         │       │   ├── manual.adoc
         │       │   ├── reference.adoc
@@ -26,4 +27,4 @@ antora
         │           └── shields.adoc
         └── playbook.yml.vm
 
-11 directories, 16 files
+11 directories, 17 files

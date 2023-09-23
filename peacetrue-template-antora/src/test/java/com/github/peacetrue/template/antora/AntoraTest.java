@@ -41,7 +41,7 @@ class AntoraTest {
     void template() {
         String targetPath = SourcePathUtils.getCustomAbsolutePath(false, true, "/antora");
         List<Resource> resources = ResourceUtils.getDirectoryResources(Paths.get(targetPath));
-        Assertions.assertEquals(27, resources.size());
+        Assertions.assertEquals(28, resources.size());
 
         templateNames = TemplateUtils.findTemplateNames(resources);
         Assertions.assertEquals(4, templateNames.size());
@@ -58,7 +58,7 @@ class AntoraTest {
         DirectoryTemplateEngine templateEngine = VelocityTemplateEngine.buildVelocityDirectoryTemplateEngine();
         templateEngine.evaluate("classpath:antora/", getOptions(), Variables.LEARN_JAVA_MAP, targetPath);
         List<Resource> resources = ConditionalResourceLoader.DEFAULT.getResources("file:" + targetPath);
-        Assertions.assertEquals(24, resources.size());
+        Assertions.assertEquals(25, resources.size());
 
 //        for (Resource resource : resources) {
 //            if (resource.isDirectory() || templateNames.stream().noneMatch(item -> resource.getPath().endsWith(item)))
