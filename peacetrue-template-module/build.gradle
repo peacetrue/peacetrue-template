@@ -1,1 +1,5 @@
 description "模块目录模板"
+
+dependencies {
+    testImplementation "com.github.peacetrue.spring:peacetrue-spring-beans"
+}

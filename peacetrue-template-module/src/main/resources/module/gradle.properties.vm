@@ -1,5 +1,0 @@
-tailSnapshot=-SNAPSHOT
-peaceGradleVersion=1.1.1
-springBootDependencies=2.7.0
-springDataDependencies=2021.2.5
-${lh.lc(${repository.name})}Version=1.0.0

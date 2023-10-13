@@ -16,10 +16,10 @@ import java.util.Objects;
 @AllArgsConstructor
 public class ModuleProperty {
 
-    /** 名称，lowerCamel格式，例如：personName */
+    /** 名称，lowerCamel 格式，例如：personName */
     private String name;
-    /** 本国 name */
-    private String nationalName;
+    /** 方言名称 */
+    private String dialectName;
     /** 类型 */
     private Class<?> type;
     /** 可否为空 */
@@ -29,7 +29,8 @@ public class ModuleProperty {
     /** 注释 */
     private String comment;
 
+
     public String getComment() {
-        return Objects.toString(comment, nationalName);
+        return Objects.toString(comment, dialectName);
     }
 }

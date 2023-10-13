@@ -27,7 +27,7 @@ public class Variables implements Cloneable {
                     "com.github.peacetrue.dictionary:peacetrue-dictionary-service-controller"
             ))
             .setModules(Collections.singletonList(
-                    new Module().setName("User").setComment("用户").setPrimaryKeys(Collections.singletonList("id"))
+                    new Module().setName("User").setDialectName("用户").setPrimaryKeys(Collections.singletonList("id"))
                             .setProperties(Arrays.asList(
                                     new ModuleProperty("id", "主键", Long.class, false, null, null),
                                     new ModuleProperty("username", "用户名", String.class, false, 32, null),

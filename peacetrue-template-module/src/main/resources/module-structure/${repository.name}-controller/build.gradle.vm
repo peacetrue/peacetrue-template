@@ -1,0 +1,13 @@
+description '${repository.title}控制器'
+
+dependencies {
+    api project(":${repository.name}-service-api")
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.data:spring-data-commons"
+    implementation "com.github.peacetrue.spring:peacetrue-spring-beans"
+
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation "javax.validation:validation-api"
+    testImplementation "com.github.peacetrue:peacetrue-validation"
+
+}

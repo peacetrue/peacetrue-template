@@ -1,0 +1,31 @@
+description '${repository.title}服务实现'
+
+dependencies {
+    api project(":${repository.name}-service-api")
+    api "org.slf4j:slf4j-api"
+    implementation "com.github.peacetrue:peacetrue-common"
+    implementation "com.github.peacetrue:peacetrue-persistence"
+    implementation "com.github.peacetrue.spring:peacetrue-spring-beans"
+    implementation "com.github.peacetrue.spring:peacetrue-spring-data"
+    implementation "com.github.peacetrue.spring:peacetrue-spring-operator"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-autoconfigure"
+    compileOnly "org.springframework.boot:spring-boot-configuration-processor"
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    testImplementation "javax.validation:validation-api"
+    testImplementation "com.github.peacetrue:peacetrue-validation"
+    // 排除 snakeyaml 依赖，否则存在问题 Could not find snakeyaml-1.30-android.jar， https://github.com/DiUS/java-faker/issues/327
+    testImplementation("org.jeasy:easy-random-bean-validation") {
+        exclude group: "org.yaml", module: "snakeyaml"
+    }
+    testImplementation "com.h2database:h2"
+    testImplementation "org.flywaydb:flyway-core"
+    // flyway 操作数据库依赖 spring-jdbc
+    testImplementation "org.springframework:spring-jdbc"
+    // 支持 MySQL 8.0 需要添加 flyway-mysql 依赖。Unsupported Database: MySQL 8.0 https://github.com/flyway/flyway/issues/2000
+    testImplementation "org.flywaydb:flyway-mysql"
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation "org.springframework.boot:spring-boot-starter-validation"
+
+}

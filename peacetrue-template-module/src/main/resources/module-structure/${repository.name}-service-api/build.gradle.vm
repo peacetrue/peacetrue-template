@@ -1,0 +1,12 @@
+description '${repository.title}服务接口'
+
+dependencies {
+    api "com.github.peacetrue:peacetrue-beans" // properties interface
+    api "com.github.peacetrue:peacetrue-common" // LocalDateRange
+    api "org.springframework.data:spring-data-commons" // Page
+
+    // 编译时依赖，具体实现可以不执行验证
+    compileOnly "javax.validation:validation-api"
+    compileOnly "com.github.peacetrue:peacetrue-validation"
+
+}

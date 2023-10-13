@@ -1,0 +1,19 @@
+package ${repository.group};
+
+import com.github.peacetrue.spring.core.io.support.YamlPropertySourceFactory;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+
+/**
+ * @author peace
+ */
+@Configuration
+@EnableConfigurationProperties(${repository.domainName}ControllerProperties.class)
+@ComponentScan(basePackageClasses = ${repository.domainName}ControllerAutoConfiguration.class)
+@PropertySource(value = "classpath:/application-${uc.lh(${repository.domainName})}-controller.yml", factory = YamlPropertySourceFactory.class)
+public class ${repository.domainName}ControllerAutoConfiguration {
+
+}
+

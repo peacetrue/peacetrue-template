@@ -1,0 +1,92 @@
+package ${repository.group};
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * ${module.dialectName}控制器
+ *
+ * @author peace
+ */
+@Slf4j
+@RestController
+@RequestMapping(value = "/${uc.lh(${module.name})}s")
+public class ${module.name}Controller {
+
+    @Autowired
+    private ${module.name}Service ${uc.lc(${module.name})}Service;
+
+    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ${module.name}VO addByForm(${module.name}Add params) {
+        log.info("add ${module.name} by form: {}", params);
+        return ${uc.lc(${module.name})}Service.add(params);
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ${module.name}VO addByJson(@RequestBody ${module.name}Add params) {
+        log.info("add ${module.name} by body: {}", params);
+        return ${uc.lc(${module.name})}Service.add(params);
+    }
+
+    @GetMapping
+    public Page<${module.name}VO> queryPage(${module.name}Query params, Pageable pageable, String... projection) {
+        log.info("page query ${module.name}: {}", params);
+        return ${uc.lc(${module.name})}Service.queryPage(params, pageable, projection);
+    }
+
+    @GetMapping(params = "rtn=list")
+    public List<${module.name}VO> queryList(${module.name}Query params, Pageable pageable, String... projection) {
+        log.info("list query ${module.name}: {}", params);
+        return ${uc.lc(${module.name})}Service.queryList(params, pageable, projection);
+    }
+
+    @GetMapping("/{${module.id.name}}")
+    public ${module.name}VO getByUrlPathVariable(@PathVariable ${module.id.type.simpleName} ${module.id.name}, String... projection) {
+        log.info("get ${module.name} by path variable: {}", ${module.id.name});
+        return ${uc.lc(${module.name})}Service.get(new ${module.name}Get(${module.id.name}), projection);
+    }
+
+    @RequestMapping("/get")
+    public ${module.name}VO getByPath(${module.name}Get params, String... projection) {
+        log.info("get ${module.name} by path: {}", params);
+        return ${uc.lc(${module.name})}Service.get(params, projection);
+    }
+
+    @PutMapping(value = {"", "/*"}, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public Integer modifyByForm(${module.name}Modify params) {
+        log.info("modify ${module.name} by body form: {}", params);
+        return ${uc.lc(${module.name})}Service.modify(params);
+    }
+
+    @PutMapping(value = {"", "/*"}, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Integer modifyByJson(@RequestBody ${module.name}Modify params) {
+        log.info("modify ${module.name} by body json: {}", params);
+        return ${uc.lc(${module.name})}Service.modify(params);
+    }
+
+    @DeleteMapping("/{${module.id.name}}")
+    public Integer deleteByUrlPathVariable(@PathVariable ${module.id.type.simpleName} ${module.id.name}) {
+        log.info("delete ${module.name} by path var: {}", ${module.id.name});
+        return ${uc.lc(${module.name})}Service.delete(new ${module.name}Delete(${module.id.name}));
+    }
+
+    @DeleteMapping(params = "${module.id.name}")
+    public Integer deleteByUrlParamVariable(${module.name}Delete params) {
+        log.info("delete ${module.name} by url param: {}", params);
+        return ${uc.lc(${module.name})}Service.delete(params);
+    }
+
+    @RequestMapping(path = "/delete")
+    public Integer deleteByPath(${module.name}Delete params) {
+        log.info("delete ${module.name} by url: {}", params);
+        return ${uc.lc(${module.name})}Service.delete(params);
+    }
+
+
+}

@@ -1,0 +1,188 @@
+## @formatter:off
+
+## 列出带验证的属性
+#macro( listValidateProperties $properties)
+    #foreach($property in $properties)
+    /** $property.comment */
+    #if(!$property.nullable)@NotNull#end
+    #if($property.type.simpleName=='String')@Size(min = 1, max = $property.size)#end
+    #if($property.type.superclass.simpleName=='Number')@Min(1)#end
+    private $property.type.simpleName $property.name;
+    #end
+#end
+
+## 属性名
+#macro( propertyNames $properties)
+    #foreach($property in $properties)$property.name,#end
+#end
+
+## 列出属性需要导入的类
+#macro( listImport $properties)
+    #foreach($property in $properties)
+        #if(!$property.type.name.startsWith("java.lang"))
+            import $property.type.name;
+        #end
+    #end
+#end
+
+## 列出属性
+#macro( listProperties $properties $ignored)
+    #foreach($property in $properties)
+        #if(!$ignored || !$ignored.contains($property.name))
+            /** $property.comment */
+            private $property.type.simpleName $property.name;
+        #end
+    #end
+#end
+
+## 排除主键
+#macro( listPropertiesOutId $properties)
+    #listProperties($properties,["id"])
+#end
+
+## 排除审计信息（创建者、创建时间、修改者、修改时间）
+#macro( listPropertiesOutAudit $properties)
+    #listProperties($properties,["creatorId","createdTime","modifierId","modifiedTime"])
+#end
+
+## 排除主键和审计信息
+#macro( listPropertiesOutIdAudit $properties)
+    #listProperties($properties,["id","creatorId","createdTime","modifierId","modifiedTime"])
+#end
+
+## 列出属性，并转换日期为范围，查询时使用
+#macro( listQuery $properties)
+    #foreach($property in $properties)
+        /** $property.comment */
+        #if($property.name=="id")
+            private $property.type.simpleName [] $property.name;
+        #elseif($property.type.name=="java.util.Date")
+            private LocalDateTimeRange $property.name = new LocalDateTimeRange();
+        #elseif($property.type.name=="java.time.LocalDateTime")
+            private LocalDateTimeRange $property.name = new LocalDateTimeRange();
+        #else
+            private $property.type.simpleName $property.name;
+        #end
+    #end
+#end
+
+##TODO 没有对属性类型做排重，需要提供一个不重复的属性类型集合，当前可格式化解决
+#macro( frontImportWrite $properties)
+    #foreach($property in $properties)
+        #if($property.type.name == 'java.lang.String')
+            TextInput,maxLength,
+        #elseif($property.type.name == 'java.lang.Long' || $property.type.name == 'java.lang.Integer')
+            NumberInput,minValue,
+        #elseif($property.type.name == 'java.lang.Boolean')
+            BooleanInput,
+        #elseif($property.type.name == 'java.util.Date' || $property.type.name == 'java.time.LocalDateTime')
+            DateTimeInput,
+        #end
+        #ternaryOperateFalse($property.nullable,'required,')
+    #end
+#end
+
+## 列出属性，前端写入页面属性
+#macro( frontPropertiesWrite $properties)
+    #foreach($property in $properties)
+        #if($property.type.name == 'java.lang.String')
+            <TextInput source="$property.name" validate={[#ternaryOperateFalse($property.nullable,'required(),')maxLength($property.size)]} resettable #if($property.size>=255) fullWidth #end />
+        #elseif($property.type.name == 'java.lang.Long' || $property.type.name == 'java.lang.Integer')
+            <NumberInput source="$property.name" validate={[#ternaryOperateFalse($property.nullable,'required(),')minValue(0)]} min={0} resettable/>
+        #elseif($property.type.name == 'java.lang.Boolean')
+            <BooleanInput source="$property.name"/>
+        #elseif($property.type.name == 'java.util.Date' || $property.type.name == 'java.time.LocalDateTime')
+            <DateTimeInput source="$property.name" showTime validate={[#ternaryOperateFalse($property.nullable,'required(),')]}/>
+        #end
+    #end
+#end
+
+##TODO 没有对属性类型做排重，需要提供一个不重复的属性类型集合，当前可格式化解决
+#macro( frontImportRead $properties)
+    #foreach($property in $properties)
+        #if($property.type.name == 'java.lang.String')
+            TextField,
+        #elseif($property.type.name == 'java.lang.Long' || $property.type.name == 'java.lang.Integer')
+            TextField,
+        #elseif($property.type.name == 'java.lang.Boolean')
+            BooleanField,
+        #elseif($property.type.name == 'java.util.Date' || $property.type.name == 'java.time.LocalDateTime')
+            DateField,
+        #end
+    #end
+#end
+
+## 列出属性，前端读取页面属性
+#macro( frontPropertiesRead $properties)
+    #foreach($property in $properties)
+        #if($property.type.name == 'java.lang.String')
+            <TextField source="$property.name" />
+        #elseif($property.type.name == 'java.lang.Long' || $property.type.name == 'java.lang.Integer')
+            <TextField source="$property.name" />
+        #elseif($property.type.name == 'java.lang.Boolean')
+            <BooleanField source="$property.name" />
+        #elseif($property.type.name == 'java.util.Date' || $property.type.name == 'java.time.LocalDateTime')
+            <DateField source="$property.name" showTime />
+        #end
+    #end
+#end
+
+##TODO 没有对属性类型做排重，需要提供一个不重复的属性类型集合，当前可格式化解决
+#macro( frontImportFilter $properties)
+    #foreach($property in $properties)
+        #if($property.type.name == 'java.lang.String')
+            TextInput,
+        #elseif($property.type.name == 'java.lang.Long' || $property.type.name == 'java.lang.Integer')
+            NumberInput,
+        #elseif($property.type.name == 'java.lang.Boolean')
+            BooleanInput,
+        #elseif($property.type.name == 'java.util.Date' || $property.type.name == 'java.time.LocalDateTime')
+            DateInput,
+        #end
+        #ternaryOperateFalse($property.nullable,'required,')
+    #end
+#end
+
+## 列出属性，前端列表页面查询条件
+#macro( frontPropertiesFilter $properties)
+    #foreach($property in $properties)
+        #if($property.type.name == 'java.lang.String')
+            <TextInput source="${property.name}" allowEmpty alwaysOn resettable />
+        #elseif($property.type.name == 'java.lang.Long' || $property.type.name == 'java.lang.Integer')
+            <NumberInput source="$property.name" allowEmpty alwaysOn resettable />
+        #elseif($property.type.name == 'java.lang.Boolean')
+            <BooleanInput source="$property.name" allowEmpty alwaysOn resettable />
+        #elseif($property.type.name == 'java.util.Date' || $property.type.name == 'java.time.LocalDateTime')
+            <DateInput source="${property.name}.lowerBound" allowEmpty alwaysOn/>
+            <DateInput source="${property.name}.upperBound" allowEmpty alwaysOn/>
+        #end
+    #end
+#end
+
+
+##三目运算
+#macro( ternaryOperate $condition $trueValue $falseValue)
+    #if($condition) $trueValue #else $falseValue #end
+#end
+
+## 三目运算:保留true值，忽略false值
+#macro( ternaryOperateTrue $condition $trueValue)
+    #ternaryOperate($condition, $trueValue, '')
+#end
+
+## 三目运算:保留false值，忽略true值
+#macro( ternaryOperateFalse $condition $falseValue)
+    #ternaryOperate($condition, '', $falseValue)
+#end
+
+
+## 列出实体属性
+#macro( listEntityProperties $properties)
+    #foreach($property in $properties)
+        /** $property.comment */
+        @Column(#ternaryOperateTrue(${property.size},"length = $property.size,") nullable = $property.nullable)
+        private $property.type.simpleName $property.name;
+    #end
+#end
+
+## @formatter:on

@@ -1,0 +1,137 @@
+package ${repository.group};
+
+import com.github.peacetrue.beans.createmodify.CreateModify;
+import com.github.peacetrue.lang.ObjectUtils;
+import com.github.peacetrue.operator.OperatorSupplier;
+import com.github.peacetrue.persistence.criteria.CriteriaBuilderUtils;
+import com.github.peacetrue.range.LocalDateRange;
+import com.github.peacetrue.range.LocalDateTimeRange;
+import com.github.peacetrue.spring.beans.BeanUtils;
+import com.github.peacetrue.spring.data.domain.PageableUtils;
+import com.github.peacetrue.spring.data.domain.SortUtils;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.PayloadApplicationEvent;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static com.github.peacetrue.lang.ObjectUtils.invokeSafely;
+
+/**
+ * ${module.dialectName}服务实现。
+ *
+ * @author peace
+ */
+@Slf4j
+@Service
+@Validated
+@Setter(onMethod = @__(@Autowired))
+public class ${module.name}ServiceImpl implements ${module.name}Service {
+
+    private ${module.name}Repository ${uc.lc(${module.name})}Repository;
+    private OperatorSupplier operatorSupplier;
+    private ApplicationEventPublisher eventPublisher;
+
+    /**
+     * 构建查询条件。
+     *
+     * @param params 查询参数
+     * @return 查询条件
+     */
+    private static Predicate buildPredicates(CriteriaBuilder cb, Root<${module.name}> root, ${module.name}Query params) {
+        LocalDateTimeRange createdTime = invokeSafely(params.getCreatedTime(), LocalDateRange::toLocalDateTimeRange);
+        LocalDateTimeRange modifiedTime = invokeSafely(params.getModifiedTime(), LocalDateRange::toLocalDateTimeRange);
+        return CriteriaBuilderUtils.and(cb, Arrays.asList(
+                invokeSafely(params.getId(), id -> root.get("id").in(Arrays.asList(id))),
+                invokeSafely(params.getCode(), code -> cb.like(root.get("code"), "%" + code + "%")),
+                invokeSafely(params.getName(), name -> cb.like(root.get("name"), "%" + name + "%")),
+                CriteriaBuilderUtils.between(cb, root.get("createdTime"), createdTime),
+                CriteriaBuilderUtils.between(cb, root.get("modifiedTime"), modifiedTime)
+        ));
+    }
+
+    @Override
+    @Transactional
+    public ${module.name}VO add(${module.name}Add params) {
+        log.info("add ${module.name}: {}", params);
+        ${module.name} entity = BeanUtils.convert(params, ${module.name}.class);
+        ObjectUtils.setDefault(entity::getRemark, entity::setRemark, "");
+        CreateModify.setCreateModify(operatorSupplier.getOperator(), entity, LocalDateTime.now());
+        ${uc.lc(${module.name})}Repository.save(entity);
+        ${module.name}VO vo = BeanUtils.convert(entity, ${module.name}VO.class);
+        // 发布一个后置新增事件，新增字典值项集合，避免依赖 DictionaryValueService
+        eventPublisher.publishEvent(new PayloadApplicationEvent<>(vo, params));
+        return vo;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<${module.name}VO> queryPage(${module.name}Query params, Pageable pageable, String... projection) {
+        log.info("page query ${module.name}: {}", params);
+        pageable = PageableUtils.setDefaultSort(pageable, SortUtils.SORT_CREATED_TIME_DESC);
+        Specification<${module.name}> specification = (root, query, cb) -> buildPredicates(cb, root, params);
+        return ${uc.lc(${module.name})}Repository.findAll(specification, pageable)
+                .map(item -> BeanUtils.convert(item, ${module.name}VO.class));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<${module.name}VO> queryList(${module.name}Query params, Pageable pageable, String... projection) {
+        log.info("list query ${module.name}: {}", params);
+        return queryPage(params, pageable, projection).getContent();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ${module.name}VO get(${module.name}Get params, String... projection) {
+        log.info("get ${module.name}: {}", params);
+        return ${uc.lc(${module.name})}Repository.findOne((root, query, cb) -> CriteriaBuilderUtils.or(cb, Arrays.asList(
+                        invokeSafely(params.getId(), id -> cb.equal(root.get("id"), id)),
+                        invokeSafely(params.getCode(), code -> cb.equal(root.get("code"), code))
+                )))
+                .map(item -> BeanUtils.convert(item, ${module.name}VO.class))
+                .orElseThrow(() -> new EntityNotFoundException("Can't fount ${module.name} by " + params))
+                ;
+    }
+
+    @Override
+    @Transactional
+    public Integer modify(${module.name}Modify params) {
+        log.info("modify ${module.name}: {}", params);
+        ${module.name} entity = ${uc.lc(${module.name})}Repository.getReferenceById(params.getId());
+        BeanUtils.copyPropertiesNotEmpty(params, entity);
+        entity.setModifierId((Long) operatorSupplier.getOperator().getId());
+        entity.setModifiedTime(LocalDateTime.now());
+        ${uc.lc(${module.name})}Repository.save(entity);
+        return 1;
+    }
+
+    @Override
+    @Transactional
+    public Integer delete(${module.name}Delete params) {
+        log.info("delete ${module.name}: {}", params);
+        Optional<${module.name}> optional = ${uc.lc(${module.name})}Repository.findById(params.getId());
+        if (!optional.isPresent()) return 0;
+        // 发布一个删除前置检查事件，字典值项服务需判断不存在记录方可删除
+        ${module.name} entity = optional.get();
+        eventPublisher.publishEvent(new PayloadApplicationEvent<>(BeanUtils.convert(entity, ${module.name}VO.class), params));
+        ${uc.lc(${module.name})}Repository.delete(entity);
+        return 1;
+    }
+
+}

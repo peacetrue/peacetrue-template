@@ -1,0 +1,34 @@
+package ${repository.group};
+
+import com.github.peacetrue.beans.properties.creatorid.CreatorId;
+import com.github.peacetrue.beans.operator.OperatorImpl;
+import com.github.peacetrue.range.LocalDateTimeRange;
+import lombok.*;
+
+import java.io.Serializable;
+
+#listImport(${module.properties})
+
+/**
+ * ${module.dialectName}查询参数。
+ *
+ * @author peace
+ */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(callSuper = true)
+public class ${module.name}Query implements CreatorId<$module.creatorId.type.simpleName> {
+
+    public static final ${module.name}Query DEFAULT = new ${module.name}Query();
+
+    /** $module.id.comment */
+    private $module.id.type.simpleName [] $module.id.name;
+    #listQuery($module.nonIdAuditProperties)
+
+    public ${module.name}Query(${module.id.type.simpleName}[] ${module.id.name}) {
+        this.${module.id.name} = ${module.id.name};
+    }
+
+}

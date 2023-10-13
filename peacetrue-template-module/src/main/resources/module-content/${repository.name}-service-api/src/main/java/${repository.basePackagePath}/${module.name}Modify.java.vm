@@ -1,0 +1,39 @@
+package ${repository.group};
+
+import com.github.peacetrue.beans.properties.creatorid.CreatorId;
+import com.github.peacetrue.beans.properties.id.Id;
+import com.github.peacetrue.beans.operator.OperatorImpl;
+import lombok.*;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+#listImport(${module.properties})
+
+/**
+ * ${module.dialectName}修改参数。
+ *
+ * @author peace
+ */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(callSuper = true)
+public class ${module.name}Modify implements Id<$module.id.type.simpleName>, CreatorId<$module.creatorId.type.simpleName> {
+
+    @NotNull
+    @Min(1)
+    private ${module.id.type.simpleName} ${module.id.name};
+    #foreach($property in ${module.nonIdAuditProperties})
+        /** $property.comment */
+        #if($property.type.simpleName=='String')
+            @Size(min = 1, max = $property.size)
+        #elseif($property.type.superclass.simpleName=='Number')
+            @Min(1)
+        #end
+        private $property.type.simpleName $property.name;
+    #end
+
+}

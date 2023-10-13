@@ -1,0 +1,32 @@
+package ${repository.group};
+
+import com.github.peacetrue.beans.createmodify.CreateModify;
+import lombok.*;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+#listImport(${module.properties})
+
+/**
+ * ${module.dialectName}实体类。
+ *
+ * @author peace
+ */
+@Entity
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+public class ${module.name} implements Serializable, com.github.peacetrue.beans.properties.id.Id<$module.id.type.simpleName>, CreateModify<Long,LocalDateTime> {
+
+    /** $module.id.comment */
+    @javax.persistence.Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @org.springframework.data.annotation.Id
+    private $module.id.type.simpleName $module.id.name;
+    #listEntityProperties($module.nonIdAuditProperties)
+
+}

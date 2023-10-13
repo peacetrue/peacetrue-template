@@ -3,6 +3,8 @@ package com.github.peacetrue.template;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.Objects;
+
 /**
  * 资源库。
  *
@@ -29,6 +31,12 @@ public class Repository {
     private String group;
     /** 领域名称 */
     private String domainName;
+    /** 包名 */
+    private String packageName;
+    /** 基础包路径 */
+    private String basePackagePath;
 
-
+    public String getBasePackagePath() {
+        return Objects.toString(basePackagePath, group.replace('.', '/'));
+    }
 }
