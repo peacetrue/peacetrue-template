@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.peacetrue.gradle.build-convention" version "${peaceGradleVersion}${tailSnapshot}" // 帮助模板，根模块时需要
+    id "io.github.peacetrue.build-convention" version "${peaceGradleVersion}${tailSnapshot}" // 帮助模板，根模块时需要
     // Spring Boot Gradle 插件：https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/
     id "org.springframework.boot" version "2.7.0"
     id "application"

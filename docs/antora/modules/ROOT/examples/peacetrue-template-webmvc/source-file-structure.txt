@@ -7,7 +7,7 @@ webmvc
 └── src
     ├── main
     │   ├── java
-    │   │   └── ${clazz.path(${repository.group})}
+    │   │   └── ${repository.basePackagePath}
     │   │       ├── $lh.uc(${repository.name})Application.java.vm
     │   │       └── $lh.uc(${repository.name})Configuration.java.vm
     │   └── resources
@@ -15,7 +15,7 @@ webmvc
     │       └── log4jdbc.properties
     └── test
         ├── java
-        │   └── ${clazz.path(${repository.group})}
+        │   └── ${repository.basePackagePath}
         │       └── $lh.uc(${repository.name})ApplicationTest.java.vm
         └── resources
             └── application-unittest.yml

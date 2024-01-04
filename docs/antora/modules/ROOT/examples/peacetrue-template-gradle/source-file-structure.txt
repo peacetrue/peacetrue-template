@@ -12,13 +12,13 @@ gradle
 └── src
     ├── main
     │   ├── java
-    │   │   └── ${clazz.path(${repository.group})}
+    │   │   └── ${repository.basePackagePath}
     │   │       └── .gitkeep
     │   └── resources
     │       └── .gitkeep
     └── test
         ├── java
-        │   └── ${clazz.path(${repository.group})}
+        │   └── ${repository.basePackagePath}
         │       └── .gitkeep
         └── resources
             └── logback.xml.vm

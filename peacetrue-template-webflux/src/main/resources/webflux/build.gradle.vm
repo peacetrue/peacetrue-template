@@ -1,6 +1,6 @@
 ## @formatter:off
 plugins {
-    id "com.github.peacetrue.gradle.build-convention" version "${esc.d}{peaceGradleVersion}${esc.d}{tailSnapshot}"
+    id "io.github.peacetrue.build-convention" version "${esc.d}{peaceGradleVersion}${esc.d}{tailSnapshot}"
     id "org.springframework.boot" version "2.7.0"
     id "application"
 }

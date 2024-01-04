@@ -5,7 +5,7 @@ webflux
 └── src
     ├── main
     │   ├── java
-    │   │   ├── ${clazz.path(${repository.group})}
+    │   │   ├── ${repository.basePackagePath}
     │   │   │   ├── $lh.uc(${repository.name})Application.java.vm
     │   │   │   └── $lh.uc(${repository.name})Configuration.java.vm
     │   │   └── .DS_Store
@@ -13,7 +13,7 @@ webflux
     │       └── application.yml.vm
     └── test
         └── java
-            └── ${clazz.path(${repository.group})}
+            └── ${repository.basePackagePath}
                 └── $lh.uc(${repository.name})ApplicationTest.java.vm
 
 9 directories, 8 files
