@@ -7,8 +7,11 @@ on:
     branches: [ master ]
   workflow_dispatch:
 
+# https://github.com/mikepenz/action-junit-report/issues/23
 permissions:
   contents: read
+  checks: write
+  id-token: write
 
 jobs:
   build:
@@ -20,22 +23,37 @@ jobs:
     name: Java ${{ matrix.Java }} Build
     steps:
       - uses: actions/checkout@v3
+
       - name: Setup java
         uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
           java-version: ${{ matrix.java }}
+
+#          https://github.com/gradle/gradle-build-action
       - name: Build with Gradle
-        uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+        uses: gradle/gradle-build-action@v2
         with:
+          gradle-version: 8.4
           arguments: build
+
       - uses: testspace-com/setup-testspace@v1
         with:
           domain: ${{github.repository_owner}}
-      #          token: ${{ secrets.TESTSPACE_TOKEN }} # optional, only required for private repos
+      # token: ${{ secrets.TESTSPACE_TOKEN }} # optional, only required for private repos
+
       - name: Publish Results to Testspace
         run: testspace "build/test-results/test/*.xml" "build/reports/jacoco/test/jacocoTestReport.xml"
 
+      # https://github.com/gradle/gradle-build-action/issues/619
+      # https://github.com/marketplace/actions/junit-report-action
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v4
+        if: failure()
+        with:
+          report_paths: '**/build/test-results/test/TEST-*.xml'
+
+      # https://docs.github.com/en/actions/learn-github-actions/expressions#status-check-functions
       #https://github.com/marketplace/actions/codecov
       - name: Codecov
         uses: codecov/codecov-action@v3.1.0
