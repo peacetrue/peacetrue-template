@@ -1,0 +1,29 @@
+package ${module.packageName};
+
+import lombok.*;
+import lombok.experimental.Accessors;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import java.io.Serializable;
+
+/**
+ * ${module.dialectName}获取参数。
+ *
+ * @author peace
+ */
+@Getter
+@Setter
+@ToString
+@Accessors(chain = true)
+@NoArgsConstructor
+@AllArgsConstructor
+public class ${module.name}Get implements Serializable {
+
+    /** ${module.id.comment} */
+    @NotNull
+    @Min(1)
+    private ${module.id.type.name} ${module.id.name};
+
+}

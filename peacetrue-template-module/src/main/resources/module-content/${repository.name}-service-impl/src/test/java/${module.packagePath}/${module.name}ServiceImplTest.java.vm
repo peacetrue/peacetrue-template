@@ -1,0 +1,81 @@
+package ${module.packageName};
+
+import com.github.peacetrue.spring.beans.BeanUtils;
+import com.github.peacetrue.spring.data.domain.PageableUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.jeasy.random.EasyRandom;
+import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.validation.ConstraintViolationException;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author peace
+ **/
+@Slf4j
+@SpringBootTest(classes = ${repository.packageName}.${repository.domainName}ServiceTestAutoConfiguration.class)
+@ActiveProfiles("${uc.lh(${repository.domainName})}-service-test")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+//@Transactional // 导致回滚
+class ${module.name}ServiceImplTest {
+
+    @Autowired
+    private ${module.name}ServiceImpl service;
+
+    @Test
+    void validate() {
+        Assertions.assertThrows(ConstraintViolationException.class, () -> service.add(null));
+    }
+
+    @Test
+    @Order(10)
+    void add() {
+        ${module.name}Add add = new EasyRandom().nextObject(${module.name}Add.class);
+        ${module.name}VO vo = service.add(add);
+        Map<String, Object> voMap = BeanUtils.getPropertyValues(vo);
+        Map<String, Object> addMap = BeanUtils.getPropertyValues(add);
+        Assertions.assertTrue(voMap.entrySet().containsAll(addMap.entrySet()));
+    }
+
+    @Test
+    @Order(20)
+    void queryPage() {
+        Page<${module.name}VO> page = service.queryPage(${module.name}Query.DEFAULT, PageableUtils.PAGEABLE_DEFAULT);
+        Assertions.assertEquals(1, page.getTotalElements());
+    }
+
+    @Test
+    @Order(30)
+    void queryList() {
+        List<${module.name}VO> vos = service.queryList(${module.name}Query.DEFAULT, PageableUtils.PAGEABLE_DEFAULT);
+        Assertions.assertEquals(1, vos.size());
+    }
+
+    @Test
+    @Order(40)
+    void get() {
+        ${module.name}VO vo = service.get(new ${module.name}Get(1L));
+        Assertions.assertNotNull(vo);
+    }
+
+    @Test
+    @Order(60)
+    void modify() {
+        ${module.name}Modify modify = new EasyRandom().nextObject(${module.name}Modify.class);
+        modify.setId(1L);
+        Assertions.assertEquals(1, service.modify(modify));
+    }
+
+    @Test
+    @Order(70)
+    void delete() {
+        Assertions.assertEquals(1, service.delete(new ${module.name}Delete(java.util.Collections.singletonList(1L))));
+    }
+}
+

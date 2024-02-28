@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>${module.dialectName}新增</title>
+</head>
+<body>
+<fieldset id="${module.name}-add">
+    <legend>${module.dialectName}新增</legend>
+    <form action="/admins" method="post">
+        <div>
+            <label>用户名：<input type="text" name="username"></label>
+        </div>
+        <div>
+            <label>密码：<input type="password" name="password"></label>
+        </div>
+        <div>
+            <button type="submit">保存</button>
+        </div>
+    </form>
+</fieldset>
+<script src="/webjars/jquery/dist/jquery.min.js"></script>
+<script src="/libs/peace/native.js"></script>
+<script>
+    new Adder($("#${module.name}-add")).init();
+</script>
+</body>
+</html>

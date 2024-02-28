@@ -34,9 +34,15 @@ public class Repository {
     /** 包名 */
     private String packageName;
     /** 基础包路径 */
-    private String basePackagePath;
+    private String packagePath;
 
-    public String getBasePackagePath() {
-        return Objects.toString(basePackagePath, group.replace('.', '/'));
+    public Repository setGroup(String group) {
+        this.group = group;
+        this.packageName = group;
+        return this;
+    }
+
+    public String getPackagePath() {
+        return Objects.toString(packagePath, packageName.replace('.', '/'));
     }
 }

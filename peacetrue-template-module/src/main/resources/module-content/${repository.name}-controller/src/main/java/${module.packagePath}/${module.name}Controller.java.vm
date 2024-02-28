@@ -1,0 +1,165 @@
+package ${module.packageName};
+
+import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * ${module.dialectName}控制器。
+ *
+ * @author peace
+ */
+@Slf4j
+@RestController
+@RequestMapping("/${uc.lh(${module.name})}s")
+@RequiredArgsConstructor
+public class ${module.name}Controller {
+
+    private final ${module.name}Service ${uc.lc(${module.name})}Service;
+
+    /**
+     * 新增${module.dialectName}。
+     *
+     * @param params 新增参数
+     * @return ${module.dialectName}视图
+     */
+    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ${module.name}VO addByForm(${module.name}Add params) {
+        log.info("add ${module.name} by body form: {}", params);
+        return ${uc.lc(${module.name})}Service.add(params);
+    }
+
+    /**
+     * 新增${module.dialectName}。
+     *
+     * @param params 新增参数
+     * @return ${module.dialectName}视图
+     */
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ${module.name}VO addByJson(@RequestBody ${module.name}Add params) {
+        log.info("add ${module.name} by body json: {}", params);
+        return ${uc.lc(${module.name})}Service.add(params);
+    }
+
+    /**
+     * 分页查询${module.dialectName}。
+     *
+     * @param params     查询参数
+     * @param pageable   分页参数
+     * @param projection 投影
+     * @return ${module.dialectName}视图分页
+     */
+    @GetMapping
+    public Page<${module.name}VO> queryPage(${module.name}Query params, Pageable pageable, String... projection) {
+        log.info("page query ${module.name}: {}", params);
+        return ${uc.lc(${module.name})}Service.queryPage(params, pageable, projection);
+    }
+
+    /**
+     * 列表查询${module.dialectName}。
+     *
+     * @param params     查询参数
+     * @param pageable   分页参数
+     * @param projection 投影
+     * @return ${module.dialectName}视图集合
+     */
+    @GetMapping(params = "rtn=list")
+    public List<${module.name}VO> queryList(${module.name}Query params, Pageable pageable, String... projection) {
+        log.info("list query ${module.name}: {}", params);
+        return ${uc.lc(${module.name})}Service.queryList(params, pageable, projection);
+    }
+
+    /**
+     * 获取${module.dialectName}。
+     *
+     * @param id         唯一标志
+     * @param projection 投影
+     * @return ${module.dialectName}视图
+     */
+    @GetMapping("/{id}")
+    public ${module.name}VO getByUrlPathVariable(@PathVariable ${module.id.type.simpleName} id, String... projection) {
+        log.info("get ${module.name} by path variable: {}", id);
+        return ${uc.lc(${module.name})}Service.get(new ${module.name}Get(${module.id.name}), projection);
+    }
+
+    /**
+     * 获取${module.dialectName}。
+     *
+     * @param params     获取参数
+     * @param projection 投影
+     * @return ${module.dialectName}视图
+     */
+    @RequestMapping("/get")
+    public ${module.name}VO getByPath(${module.name}Get params, String... projection) {
+        log.info("get ${module.name} by path: {}", params);
+        return ${uc.lc(${module.name})}Service.get(params, projection);
+    }
+
+    /**
+     * 修改${module.dialectName}（局部修改）。
+     *
+     * @param params 修改参数
+     * @return 受影响行数
+     */
+    @PutMapping(value = {"", "/*"}, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public Integer modifyByForm(${module.name}Modify params) {
+        log.info("modify ${module.name} by body form: {}", params);
+        return ${uc.lc(${module.name})}Service.modify(params);
+    }
+
+    /**
+     * 修改${module.dialectName}（局部修改）。
+     *
+     * @param params 修改参数
+     * @return 受影响行数
+     */
+    @PutMapping(value = {"", "/*"}, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Integer modifyByJson(@RequestBody ${module.name}Modify params) {
+        log.info("modify ${module.name} by body json: {}", params);
+        return ${uc.lc(${module.name})}Service.modify(params);
+    }
+
+    /**
+     * 删除${module.dialectName}。
+     *
+     * @param id 唯一标志
+     * @return 受影响行数
+     */
+    @DeleteMapping("/{id}")
+    public Integer deleteByUrlPathVariable(@PathVariable ${module.id.type.simpleName} id) {
+        log.info("delete ${module.name} by path var: {}", id);
+        return ${uc.lc(${module.name})}Service.delete(new ${module.name}Delete(${module.id.name}));
+    }
+
+    /**
+     * 删除${module.dialectName}。
+     *
+     * @param params 删除参数
+     * @return 受影响行数
+     */
+    @DeleteMapping(params = "${module.id.name}")
+    public Integer deleteByUrlParamVariable(${module.name}Delete params) {
+        log.info("delete ${module.name} by param var: {}", params);
+        return ${uc.lc(${module.name})}Service.delete(params);
+    }
+
+    /**
+     * 删除${module.dialectName}。
+     *
+     * @param params 删除参数
+     * @return 受影响行数
+     */
+    @RequestMapping(path = "/delete")
+    public Integer deleteByPath(${module.name}Delete params) {
+        log.info("delete ${module.name} by url: {}", params);
+        return ${uc.lc(${module.name})}Service.delete(params);
+    }
+
+
+}

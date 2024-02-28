@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: ${repository.name}
+  web:
+    resources:
+      static-locations:
+        - file:../peacetrue-modules-user/peacetrue-modules-user-frontend-native/src/main/resources/static
+        - file:./${repository.name}-frontend-native
+#TODO complete static-locations!

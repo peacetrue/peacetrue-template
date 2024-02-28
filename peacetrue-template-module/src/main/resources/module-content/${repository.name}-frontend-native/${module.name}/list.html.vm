@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>${module.dialectName}列表</title>
+    <script src="/webjars/jquery/dist/jquery.min.js"></script>
+    <script src="/webjars/jsrender/jsrender.min.js"></script>
+    <script src="/libs/peace/native.js"></script>
+</head>
+<body>
+<div id="${module.name}-list">
+    <fieldset>
+        <legend>查询条件</legend>
+        <form action="/${module.name}s">
+            <div>
+                <label>用户名：<input type="text" name="username"></label>
+                <label>创建时间：<input type="datetime-local" name="createdTime.lowerBound"> ~ <input type="datetime-local" name="createdTime.upperBound"></label>
+                <button type="submit" class="btn btn-info">查询</button>
+                <button type="reset" class="btn btn-info">重置</button>
+            </div>
+        </form>
+    </fieldset>
+    <a href="/${module.name}/add.html" target="_blank">新增</a>
+    <fieldset>
+        <legend>查询结果</legend>
+        <table>
+            <thead>
+            <tr>
+                <th>标识</th>
+                <th>用户名</th>
+                <th>创建者</th>
+                <th>创建时间</th>
+                <th>最近修改者</th>
+                <th>最近修改时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- @formatter:off -->
+            <script type="text/x-jsrender">
+                <tr>
+                    <td>{{:id}}</td>
+                    <td>{{:username}}</td>
+                    <td>{{:creatorId}}</td>
+                    <td>{{:createdTime}}</td>
+                    <td>{{:modifierId}}</td>
+                    <td>{{:modifiedTime}}</td>
+                    <td>
+                        <a href="/admin/detail.html?id={{:id}}" target="_blank">详情</a>
+<!--                        <a href="/admin/edit.html?id={{:id}}">修改</a>-->
+                        <a href="/admins/{{:id}}" class="delete">删除</a>
+                    </td>
+                </tr>
+            </script>
+            <!-- @formatter:on -->
+            </tbody>
+        </table>
+        <div class="pagination"></div>
+    </fieldset>
+    <script>
+        Pagination.initListSearcher($("#${module.name}-list"));
+    </script>
+</div>
+
+</body>
+</html>

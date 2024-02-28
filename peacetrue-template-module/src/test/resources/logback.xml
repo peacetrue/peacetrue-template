@@ -10,5 +10,6 @@
     <root level="info">
         <appender-ref ref="stdout"/>
     </root>
+    <logger name="com.github.peacetrue" level="trace" />
     <logger name="com.github.peacetrue.template.module" level="trace" />
 </configuration>

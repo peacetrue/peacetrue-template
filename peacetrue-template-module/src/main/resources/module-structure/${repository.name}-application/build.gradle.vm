@@ -1,0 +1,19 @@
+description '${repository.title}应用'
+
+dependencies {
+    // web 层
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    // 验证
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    // 持久层
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'com.github.peacetrue.spring:peacetrue-spring-profiles-jpa'
+    // 模块
+    implementation project(":${repository.name}-service-impl")
+    implementation project(":${repository.name}-controller")
+    // 环境
+    implementation 'com.github.peacetrue.spring:peacetrue-spring-profiles'
+    // 其他
+    implementation 'com.github.peacetrue.spring:peacetrue-spring-requestid'
+}

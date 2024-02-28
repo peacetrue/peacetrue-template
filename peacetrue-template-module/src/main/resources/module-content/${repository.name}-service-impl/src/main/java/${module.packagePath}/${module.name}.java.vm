@@ -1,0 +1,28 @@
+package ${module.packageName};
+
+import com.github.peacetrue.beans.createmodify.CreateModify;
+import com.github.peacetrue.beans.properties.id.Id;
+import lombok.*;
+
+import javax.persistence.*;
+import java.io.Serializable;
+
+#listImport(${module.properties})
+
+/**
+ * ${module.dialectName}实体类。
+ *
+ * @author peace
+ */
+@Entity
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+##TODO 判断是否为修改，过于繁琐
+public class ${module.name} implements Serializable, Id<$module.id.type.simpleName>#ternaryOperate(${collection.values($module.properties,"name").contains("modifierId")},",com.github.peacetrue.beans.createmodify.CreateModify<Long,java.time.Instant>",",com.github.peacetrue.beans.create.Create<Long,java.time.Instant>") {
+
+    #listEntityProperties($module.properties)
+
+}

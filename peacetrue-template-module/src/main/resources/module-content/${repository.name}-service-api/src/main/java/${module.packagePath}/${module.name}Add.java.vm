@@ -1,0 +1,21 @@
+package ${module.packageName};
+
+import lombok.*;
+import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+
+/**
+ * ${module.dialectName}新增参数。
+ *
+ * @author peace
+ */
+@Getter
+@Setter
+@ToString
+@Accessors(chain = true)
+@NoArgsConstructor
+@AllArgsConstructor
+public class ${module.name}Add implements Serializable {
+    #listAddProperties($module.properties,["id","creatorId", "createdTime", "modifierId", "modifiedTime"],false)
+}

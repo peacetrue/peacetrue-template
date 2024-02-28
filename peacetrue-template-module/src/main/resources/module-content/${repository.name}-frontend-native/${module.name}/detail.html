@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户详情</title>
+</head>
+<body>
+<fieldset id="admin-detail">
+    <legend>用户详情</legend>
+    <div>
+        标识：<span class="id"></span>
+    </div>
+    <div>
+        用户名：<span class="username"></span>
+    </div>
+    <div>
+        密码：<span class="password"></span>
+    </div>
+    <div>
+        创建者：<span class="creatorId"></span>
+    </div>
+    <div>
+        创建时间：<span class="createdTime"></span>
+    </div>
+    <div>
+        最近修改者：<span class="modifierId"></span>
+    </div>
+    <div>
+        最近修改时间：<span class="modifiedTime"></span>
+    </div>
+</fieldset>
+<script src="/webjars/jquery/dist/jquery.min.js"></script>
+<script>
+    $.getJSON(`/admins/${location.search.split("=").pop()}`, function (data) {
+        let container = $("#admin-detail");
+        for (let name in data) {
+            container.find(`.${name}`).text(data[name]);
+        }
+    });
+</script>
+</body>
+</html>

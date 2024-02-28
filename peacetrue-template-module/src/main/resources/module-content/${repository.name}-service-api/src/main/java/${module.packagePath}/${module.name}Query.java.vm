@@ -1,0 +1,25 @@
+package ${module.packageName};
+
+import lombok.*;
+import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+/**
+ * ${module.dialectName}查询参数。
+ *
+ * @author peace
+ */
+@Getter
+@Setter
+@ToString
+@Accessors(chain = true)
+@NoArgsConstructor
+@AllArgsConstructor
+public class ${module.name}Query implements Serializable {
+
+    /** 默认实例 */
+    public static final ${module.name}Query DEFAULT = new ${module.name}Query();
+
+    #listQueryProperties($module.properties,["creatorId","modifierId", "modifiedTime"],false)
+
+}

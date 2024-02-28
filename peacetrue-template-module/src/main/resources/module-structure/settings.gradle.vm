@@ -1,0 +1,5 @@
+rootProject.name = "${repository.name}"
+include("${repository.name}-service-api")
+include("${repository.name}-service-impl")
+include("${repository.name}-controller")
+include("${repository.name}-application")

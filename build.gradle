@@ -21,14 +21,13 @@
 //}
 
 plugins {
-    id "io.github.peacetrue.build-convention" version "${peaceGradleVersion}${tailSnapshot}" apply false
+    id "io.github.peacetrue.build-convention" version "${peaceGradleVersion}${tailSnapshot}"
 }
 
 group "com.github.peacetrue.template"
 version "${peacetrueTemplateVersion}${tailSnapshot}"
 description "目录模板"
 
-apply plugin: "io.github.peacetrue.build-convention"
 apply from: "dependencies.gradle"
 
 // 执行目录模板引擎 Gradle 插件

@@ -1,9 +1,10 @@
+## h2 中 value 为关键字，所有名称都包含在 `` 中
 DROP TABLE IF EXISTS `${uc.lu(${module.name})}`;
 CREATE TABLE `${uc.lu(${module.name})}`
 (
     id BIGINT AUTO_INCREMENT PRIMARY KEY NOT NULL COMMENT '主键'
     #foreach(${property} in ${module.nonIdAuditProperties})
-        ,${lc.lu(${property.name})} BIGINT #ternaryOperateFalse(${property.nullable},'NOT NULL') COMMENT '${property.comment}'
+        ,`${lc.lu(${property.name})}` BIGINT UNSIGNED #ternaryOperateFalse(${property.nullable},'NOT NULL') COMMENT '${property.comment}'
     #end
 ) COMMENT '${module.dialectName}';
 

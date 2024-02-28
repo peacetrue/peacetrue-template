@@ -1,14 +1,65 @@
 ## @formatter:off
 
-## 列出带验证的属性
-#macro( listValidateProperties $properties)
+##TODO 无法声明为全局属性
+#set($auditPropNames = ["creatorId", "createdTime", "modifierId", "modifiedTime"])
+#set($idAuditPropNames = ["id","creatorId", "createdTime", "modifierId", "modifiedTime"])
+
+
+## 列出带验证的属性，用于新增参数、修改参数等
+#macro( listAddProperties $properties $propertyNames $include)
     #foreach($property in $properties)
-    /** $property.comment */
-    #if(!$property.nullable)@NotNull#end
-    #if($property.type.simpleName=='String')@Size(min = 1, max = $property.size)#end
-    #if($property.type.superclass.simpleName=='Number')@Min(1)#end
-    private $property.type.simpleName $property.name;
+        #if( ($include && $propertyNames.contains($property.name))
+            || (!$include && !$propertyNames.contains($property.name)))
+            #showAddProperty($property)
+        #end
     #end
+#end
+
+#macro( showAddProperty $property)
+    /** $property.comment */
+    #if(!$property.nullable)@javax.validation.constraints.NotNull#end
+    #if($property.type.simpleName=='String')@javax.validation.constraints.Size(min = 1, max = $property.size)#end
+    #if($property.type.superclass.simpleName=='Number')@javax.validation.constraints.Min(1)#end
+    private $property.type.name $property.name;
+#end
+
+## 列出属性，并转换日期为范围，查询时使用
+#macro( listQueryProperties $properties $propertyNames $include)
+    #foreach($property in $properties)
+        #if( ($include && $propertyNames.contains($property.name))
+        || (!$include && !$propertyNames.contains($property.name)))
+            #showQueryProperty($property)
+        #end
+    #end
+#end
+
+#macro( showQueryProperty $property)
+    /** $property.comment */
+    #if($property.name=="id")
+    private ${property.type.name}[] $property.name;
+    #elseif($property.type.name=="java.util.Date")
+    private com.github.peacetrue.range.DateRange $property.name;
+    #elseif($property.type.name=="java.time.LocalDateTime")
+    private com.github.peacetrue.range.LocalDateTimeRange $property.name;
+    #else
+    private $property.type.name $property.name;
+    #end
+#end
+
+
+## 列出属性
+#macro( listVOProperties $properties $ignored)
+    #foreach($property in $properties)
+        #if( ($include && $propertyNames.contains($property.name))
+        || (!$include && !$propertyNames.contains($property.name)))
+            #showVOProperty($property)
+        #end
+    #end
+#end
+
+#macro( showVOProperty $property)
+    /** $property.comment */
+    private $property.type.name $property.name;
 #end
 
 ## 属性名
@@ -25,46 +76,23 @@
     #end
 #end
 
-## 列出属性
-#macro( listProperties $properties $ignored)
-    #foreach($property in $properties)
-        #if(!$ignored || !$ignored.contains($property.name))
-            /** $property.comment */
-            private $property.type.simpleName $property.name;
-        #end
-    #end
-#end
+
 
 ## 排除主键
-#macro( listPropertiesOutId $properties)
-    #listProperties($properties,["id"])
+#macro( listVoPropertiesOutId $properties)
+    #listVoProperties($properties,["id"])
 #end
 
 ## 排除审计信息（创建者、创建时间、修改者、修改时间）
-#macro( listPropertiesOutAudit $properties)
-    #listProperties($properties,["creatorId","createdTime","modifierId","modifiedTime"])
+#macro( listVoPropertiesOutAudit $properties)
+    #listVoProperties($properties,["creatorId","createdTime","modifierId","modifiedTime"])
 #end
 
 ## 排除主键和审计信息
-#macro( listPropertiesOutIdAudit $properties)
-    #listProperties($properties,["id","creatorId","createdTime","modifierId","modifiedTime"])
+#macro( listVoPropertiesOutIdAudit $properties)
+    #listVoProperties($properties,["id","creatorId","createdTime","modifierId","modifiedTime"])
 #end
 
-## 列出属性，并转换日期为范围，查询时使用
-#macro( listQuery $properties)
-    #foreach($property in $properties)
-        /** $property.comment */
-        #if($property.name=="id")
-            private $property.type.simpleName [] $property.name;
-        #elseif($property.type.name=="java.util.Date")
-            private LocalDateTimeRange $property.name = new LocalDateTimeRange();
-        #elseif($property.type.name=="java.time.LocalDateTime")
-            private LocalDateTimeRange $property.name = new LocalDateTimeRange();
-        #else
-            private $property.type.simpleName $property.name;
-        #end
-    #end
-#end
 
 ##TODO 没有对属性类型做排重，需要提供一个不重复的属性类型集合，当前可格式化解决
 #macro( frontImportWrite $properties)
@@ -180,7 +208,12 @@
 #macro( listEntityProperties $properties)
     #foreach($property in $properties)
         /** $property.comment */
+        #if($property.name == "id")
+        @javax.persistence.Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        #else
         @Column(#ternaryOperateTrue(${property.size},"length = $property.size,") nullable = $property.nullable)
+        #end
         private $property.type.simpleName $property.name;
     #end
 #end

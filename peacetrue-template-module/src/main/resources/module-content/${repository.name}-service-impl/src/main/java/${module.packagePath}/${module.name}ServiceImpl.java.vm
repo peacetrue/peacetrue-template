@@ -1,0 +1,127 @@
+package ${module.packageName};
+
+import com.github.peacetrue.operator.OperatorSupplier;
+import com.github.peacetrue.persistence.criteria.CriteriaBuilderUtils;
+import com.github.peacetrue.spring.beans.BeanUtils;
+import com.github.peacetrue.spring.data.domain.PageableUtils;
+import com.github.peacetrue.spring.data.domain.SortUtils;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.PayloadApplicationEvent;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static com.github.peacetrue.lang.ObjectUtils.invokeSafely;
+
+/**
+ * ${module.dialectName}服务实现。
+ *
+ * @author peace
+ */
+@Slf4j
+@Service
+@Validated
+@RequiredArgsConstructor
+public class ${module.name}ServiceImpl implements ${module.name}Service {
+
+    private final EntityManager entityManager;
+    private final ${module.name}Repository ${uc.lc(${module.name})}Repository;
+    private final OperatorSupplier operatorSupplier;
+    private final ApplicationEventPublisher eventPublisher;
+
+    /**
+     * 构建查询条件。
+     *
+     * @param params 查询参数
+     * @return 查询条件
+     */
+    private static Predicate buildPredicates(CriteriaBuilder cb, Root<${module.name}> root, ${module.name}Query params) {
+        return CriteriaBuilderUtils.and(cb, Arrays.asList(
+                invokeSafely(params.getId(), id -> root.get("id").in(Arrays.asList(id))),
+                CriteriaBuilderUtils.between(cb, root.get("createdTime"), params.getCreatedTime())
+        ));
+    }
+
+    @Override
+    @Transactional
+    public ${module.name}VO add(${module.name}Add params) {
+        log.info("add ${module.name}: {}", params);
+        ${module.name} entity = BeanUtils.convert(params, ${module.name}.class);
+        #ternaryOperate(${collection.values($module.properties,"name").contains("modifierId")},
+        "com.github.peacetrue.beans.createmodify.CreateModify.setCreateModify(operatorSupplier.getOperator(), entity, LocalDateTime.now());",
+        "com.github.peacetrue.beans.create.Create.setCreate(operatorSupplier.getOperator(), entity, LocalDateTime.now());")
+        ${uc.lc(${module.name})}Repository.save(entity);
+        ${module.name}VO vo = BeanUtils.convert(entity, ${module.name}VO.class);
+        eventPublisher.publishEvent(new PayloadApplicationEvent<>(vo, params));
+        return vo;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<${module.name}VO> queryPage(${module.name}Query params, Pageable pageable, String... projection) {
+        log.info("page query ${module.name}: {}", params);
+        pageable = PageableUtils.setDefaultSort(pageable, SortUtils.SORT_CREATED_TIME_DESC);
+        Specification<${module.name}> specification = (root, query, cb) -> buildPredicates(cb, root, params);
+        return ${uc.lc(${module.name})}Repository.findAll(specification, pageable)
+                .map(item -> BeanUtils.convert(item, ${module.name}VO.class));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<${module.name}VO> queryList(${module.name}Query params, Pageable pageable, String... projection) {
+        log.info("list query ${module.name}: {}", params);
+        pageable = PageableUtils.setDefaultSort(pageable, SortUtils.SORT_CREATED_TIME_DESC);
+        Specification<T> specification = (root, query, cb) -> buildPredicates(cb, root, params);
+        return EntityManagerUtils.getResultList(entityManager, ${module.name}.class, specification, pageable)
+                .stream()
+                .map(item -> BeanUtils.convert(item, ${module.name}VO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ${module.name}VO get(${module.name}Get params, String... projection) {
+        log.info("get ${module.name}: {}", params);
+        return ${uc.lc(${module.name})}Repository.findOne((root, query, cb) -> CriteriaBuilderUtils.or(cb, Arrays.asList(
+                    (Predicate)invokeSafely(params.getId(), id -> cb.equal(root.get("id"), id))
+                )))
+                .map(item -> BeanUtils.convert(item, ${module.name}VO.class))
+                .orElseThrow(() -> new EntityNotFoundException("Can't fount ${module.name} by " + params))
+                ;
+    }
+
+    @Override
+    @Transactional
+    public Integer modify(${module.name}Modify params) {
+        log.info("modify ${module.name}: {}", params);
+        ${module.name} entity = ${uc.lc(${module.name})}Repository.getReferenceById(params.getId());
+        BeanUtils.copyPropertiesNotEmpty(params, entity);
+        //entity.setModifierId((Long) operatorSupplier.getOperator().getId());
+        //entity.setModifiedTime(LocalDateTime.now());
+        ${uc.lc(${module.name})}Repository.save(entity);
+        return 1;
+    }
+
+    @Override
+    @Transactional
+    public Integer delete(${module.name}Delete params) {
+        log.info("delete ${module.name}: {}", params);
+        ${uc.lc(${module.name})}Repository.deleteAllByIdInBatch(params.getId());
+        return params.getId().size();
+    }
+
+}

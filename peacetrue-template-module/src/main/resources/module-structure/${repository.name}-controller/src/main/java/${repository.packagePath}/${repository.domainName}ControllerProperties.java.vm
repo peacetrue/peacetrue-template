@@ -1,0 +1,15 @@
+package ${repository.group};
+
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+/**
+ * @author peace
+ */
+@Getter
+@Setter
+@ConfigurationProperties(prefix = "peacetrue.${uc.lh(${repository.domainName})}")
+public class ${repository.domainName}ControllerProperties {
+
+}
